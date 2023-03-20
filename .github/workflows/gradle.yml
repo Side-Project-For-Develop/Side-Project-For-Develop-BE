@@ -11,8 +11,8 @@ name: Java CI with Gradle
 # Event Trigger
 # master branch에 push 또는 pull request가 발생할 경우 동작
 on:
-#  push:
-#    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
