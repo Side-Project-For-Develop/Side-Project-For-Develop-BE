@@ -53,7 +53,7 @@ jobs:
 
       # 압축파일 형태로 전달
     - name: Make zip file
-      run: zip -r -qq -j ./toks-project.zip ./deploy
+      run: zip -r -qq -j ./toksdeploy.zip ./deploy
 
       # S3 Bucket으로 copy
     - name: Deliver to AWS S3
@@ -64,4 +64,4 @@ jobs:
        aws s3 cp \
        --region ap-northeast-2 \
        --acl private \
-       ./toks-project.zip s3://toksproject/
+       ./toksdeploy.zip s3://toksproject/
