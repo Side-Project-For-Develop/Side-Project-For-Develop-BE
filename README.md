@@ -14,3 +14,5 @@
 | 이름 | GitHub | Blog |
 | - | - | - |
 | 서보성 | [@teabear12](https://github.com/teabear12) | [Velog](https://greenteabear.tistory.com/) |
+| 오명재 | [@Oh-Myeongjae](https://github.com/Oh-Myeongjae) |  |
+
