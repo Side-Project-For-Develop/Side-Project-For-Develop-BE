@@ -51,6 +51,10 @@ jobs:
     - name: Copy Jar
       run: cp ./build/libs/*.jar ./deploy/
 
+      # appspec.yml Copy
+    - name: Copy appspec
+      run: cp appspec.yml ./deploy/
+
       # 압축파일 형태로 전달
     - name: Make zip file
       run: zip -r -qq -j ./toksdeploy.zip ./deploy
@@ -65,3 +69,16 @@ jobs:
        --region ap-northeast-2 \
        --acl private \
        ./toksdeploy.zip s3://toksproject/
+
+    # Deploy
+    - name: Deploy
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      run: |
+       aws deploy create-deployment \
+       --application-name toks-deploy \
+       --deployment-group-name toks-deploy \
+       --file-exists-behavior OVERWRITE \
+       --s3-location bucket=toksproject,bundleType=zip,key=toksdeploy.zip \
+       --region ap-northeast-2
