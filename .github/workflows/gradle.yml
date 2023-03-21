@@ -78,7 +78,7 @@ jobs:
       run: |
        aws deploy create-deployment \
        --application-name toks-deploy \
-       --deployment-group-name 사이드 프로젝트 \
+       --deployment-group-name toks-deploy \
        --file-exists-behavior OVERWRITE \
        --s3-location bucket=toksproject,bundleType=zip,key=toksdeploy.zip \
        --region ap-northeast-2
