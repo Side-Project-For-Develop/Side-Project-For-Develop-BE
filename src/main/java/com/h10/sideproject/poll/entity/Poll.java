@@ -1,6 +1,7 @@
 package com.h10.sideproject.poll.entity;
 
 import com.h10.sideproject.category.entity.Category;
+import com.h10.sideproject.poll.dto.PollRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -37,4 +38,14 @@ public class Poll extends Timestamped{
     @JoinColumn(name = "category_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category; //카테고리
+
+    public void update(PollRequestDto pollRequestDto,Category category){
+        this.title = pollRequestDto.getTitle();
+        this.category = category;
+        this.choice1 = pollRequestDto.getChoice1();
+        this.choice1_img = pollRequestDto.getChoice1_img();
+        this.choice2 = pollRequestDto.getChoice2();
+        this.choice2_img = pollRequestDto.getChoice2_img();
+    }
+
 }
