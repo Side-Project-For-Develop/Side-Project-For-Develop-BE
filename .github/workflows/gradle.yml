@@ -19,6 +19,9 @@ on:
 permissions:
   contents: read
 
+env:
+  RESOURCE_PATH: ./src/main/resources/application-aws.properties
+
 jobs:
   build:
     # 실행 환경 지정
