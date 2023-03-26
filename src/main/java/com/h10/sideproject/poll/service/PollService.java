@@ -37,4 +37,17 @@ public class PollService {
         );
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Transactional
+    public ResponseEntity<?>updatePoll(PollRequestDto pollRequestDto, Long poll_id) {
+        Poll poll = pollRepository.findById(poll_id).orElse(null);
+        if(poll != null){
+            Category category = categoryRepository.findByName(pollRequestDto.getCategory()).orElse(null);
+            if(category == null){
+                category = categoryRepository.save(Category.builder().name(pollRequestDto.getCategory()).build());
+            }
+            poll.update(pollRequestDto,category);
+        }
+        return new ResponseEntity<>("설문 수정 성공",HttpStatus.OK);
+    }
 }
