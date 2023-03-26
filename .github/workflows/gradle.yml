@@ -20,7 +20,7 @@ permissions:
   contents: read
 
 env:
-  RESOURCE_PATH: ./src/main/resources/application.properties
+  RESOURCE_PATH: ./src/main/resources/application.yaml
 
 jobs:
   build:
