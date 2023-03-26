@@ -50,4 +50,12 @@ public class PollService {
         }
         return new ResponseEntity<>("설문 수정 성공",HttpStatus.OK);
     }
+
+    public ResponseEntity<?> deletePoll(Long poll_id) {
+        Poll poll = pollRepository.findById(poll_id).orElse(null);
+        if(poll != null){
+            pollRepository.deleteById(poll_id);
+        }
+        return new ResponseEntity<>("설문 삭제 성공",HttpStatus.OK);
+    }
 }

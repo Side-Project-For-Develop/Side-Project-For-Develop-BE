@@ -24,4 +24,9 @@ public class PollController {
     public ResponseEntity<?> updatePoll(@PathVariable Long poll_id, @RequestBody PollRequestDto pollRequestDto){
         return  pollService.updatePoll(pollRequestDto,poll_id);
     }
+
+    @DeleteMapping("/poll/{poll_id}")
+    public ResponseEntity<?> deletePoll(@PathVariable Long poll_id){
+        return  pollService.deletePoll(poll_id);
+    }
 }
