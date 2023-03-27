@@ -21,6 +21,6 @@ public class SignupRequestDto {
     @NotBlank
     @Pattern(regexp="^([\\w\\.\\_\\-])*[a-zA-Z0-9]+([\\w\\.\\_\\-])*([a-zA-Z0-9])+([\\w\\.\\_\\-])+@([a-zA-Z0-9]+\\.)+[a-zA-Z0-9]{2,8}$", message = "이메일을 확인해주세요")
     private String email;
-
+    private String profileImage;
 
 }
