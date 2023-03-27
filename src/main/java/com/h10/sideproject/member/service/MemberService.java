@@ -2,8 +2,7 @@ package com.h10.sideproject.member.service;
 
 import com.h10.sideproject.common.exception.CustomException;
 import com.h10.sideproject.common.exception.ErrorCode;
-import com.h10.sideproject.member.dto.LoginRequestDto;
-import com.h10.sideproject.member.dto.SignupRequestDto;
+import com.h10.sideproject.member.dto.*;
 import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.member.mapper.MemberMapper;
 import com.h10.sideproject.member.repository.MemberRepository;
@@ -56,5 +55,26 @@ public class MemberService {
         }
 
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(member.getMemberId()));
+    }
+
+    public void memberidcheck(MemberIdCheckDto memberIdcheckDto) {
+        Optional<Member> checkMemberId = memberRepository.findByMemberId(memberIdcheckDto.getMemberId());
+        if(checkMemberId.isPresent()) {
+            throw new CustomException(ErrorCode.DUPLICATE_MEMBERID);
+        }
+    }
+
+    public void emailcheck(EmailCheckDto emailcheckDto) {
+        Optional<Member> checkEmail = memberRepository.findByEmail(emailcheckDto.getEmail());
+        if(checkEmail.isPresent()){
+            throw new CustomException(ErrorCode.DUPLICATE_EMAIL);
+        }
+    }
+
+    public void nicknamecheck(NicknameCheckDto nicknamecheckDto) {
+        Optional<Member> checkNickname = memberRepository.findByNickname(nicknamecheckDto.getNickname());
+        if(checkNickname.isPresent()){
+            throw new CustomException(ErrorCode.DUPLICATE_NICKNAME);
+        }
     }
 }
