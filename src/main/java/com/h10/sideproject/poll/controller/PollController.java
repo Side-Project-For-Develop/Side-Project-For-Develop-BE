@@ -20,6 +20,12 @@ public class PollController {
         return new ResponseEntity<>("설문 작성 성공",HttpStatus.OK);
     }
 
+    @GetMapping("/poll/{poll_id}")
+    public ResponseEntity<?> readPoll(@PathVariable Long poll_id){
+        return  pollService.readPoll(poll_id);
+    }
+
+
     @PatchMapping("/poll/{poll_id}")
     public ResponseEntity<?> updatePoll(@PathVariable Long poll_id, @RequestBody PollRequestDto pollRequestDto){
         return  pollService.updatePoll(pollRequestDto,poll_id);
