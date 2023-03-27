@@ -4,11 +4,12 @@ import com.h10.sideproject.poll.entity.Poll;
 import com.h10.sideproject.poll.entity.Timestamped;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
-
+@Getter
 @Builder
 @Entity
 @AllArgsConstructor
