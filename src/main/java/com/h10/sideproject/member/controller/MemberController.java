@@ -30,12 +30,6 @@ public class MemberController {
         memberService.login(loginRequestDto, response);
         return new ResponseMessage<>(MessageCode.MEMBER_LOGIN_SUCCESS, null);
     }
-    @PostMapping("/member/checkid")
-    public ResponseMessage<?> memberIdcheck(@RequestBody MemberIdCheckDto memberIdcheckDto){
-        memberService.memberidcheck(memberIdcheckDto);
-        return new ResponseMessage<>("Success", 200, null);
-    }
-
     @PostMapping("/member/checkemail")
     public ResponseMessage<?> emailcheck(@RequestBody EmailCheckDto emailcheckDto){
         memberService.emailcheck(emailcheckDto);

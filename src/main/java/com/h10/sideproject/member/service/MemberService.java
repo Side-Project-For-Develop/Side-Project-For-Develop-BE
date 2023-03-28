@@ -29,10 +29,6 @@ public class MemberService {
     public void signup(SignupRequestDto signupRequestDto) {
         Member member = memberMapper.toMember(signupRequestDto);
 
-        Optional<Member> checkMemberId = memberRepository.findByMemberId(member.getMemberId());
-        if(checkMemberId.isPresent()) {
-            throw new CustomException(ErrorCode.DUPLICATE_MEMBERID);
-        }
         Optional<Member> checkEmail = memberRepository.findByEmail(member.getEmail());
         if(checkEmail.isPresent()){
             throw new CustomException(ErrorCode.DUPLICATE_EMAIL);
@@ -46,7 +42,7 @@ public class MemberService {
     }
     @Transactional
     public void login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
-        Member member = memberRepository.findByMemberId(loginRequestDto.getMemberId()).orElseThrow(
+        Member member = memberRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow(
                 () -> new CustomException(MEMBER_NOT_FOUND)
         );
         //비밀번호 확인
@@ -54,14 +50,7 @@ public class MemberService {
             throw new CustomException(INCORRECT_PASSWORD);
         }
 
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(member.getMemberId()));
-    }
-
-    public void memberidcheck(MemberIdCheckDto memberIdcheckDto) {
-        Optional<Member> checkMemberId = memberRepository.findByMemberId(memberIdcheckDto.getMemberId());
-        if(checkMemberId.isPresent()) {
-            throw new CustomException(ErrorCode.DUPLICATE_MEMBERID);
-        }
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(member.getEmail()));
     }
 
     public void emailcheck(EmailCheckDto emailcheckDto) {
