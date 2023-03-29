@@ -4,6 +4,8 @@ import com.h10.sideproject.poll.dto.PollRequestDto;
 import com.h10.sideproject.poll.service.PollService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,8 +16,8 @@ public class PollController {
     private final PollService pollService;
 
     @PostMapping("/poll")
-    public ResponseEntity<?> createPoll(@RequestBody PollRequestDto pollRequestDto) {
-        return pollService.createPoll(pollRequestDto);
+    public ResponseEntity<?> createPoll(@RequestBody PollRequestDto pollRequestDto, @AuthenticationPrincipal UserDetails user) {
+        return pollService.createPoll(pollRequestDto,user);
     }
 
     @GetMapping("/poll/{poll_id}")
@@ -25,12 +27,12 @@ public class PollController {
 
 
     @PatchMapping("/poll/{poll_id}")
-    public ResponseEntity<?> updatePoll(@PathVariable Long poll_id, @RequestBody PollRequestDto pollRequestDto){
-        return  pollService.updatePoll(pollRequestDto,poll_id);
+    public ResponseEntity<?> updatePoll(@PathVariable Long poll_id, @RequestBody PollRequestDto pollRequestDto, @AuthenticationPrincipal UserDetails user){
+        return  pollService.updatePoll(pollRequestDto,poll_id,user);
     }
 
     @DeleteMapping("/poll/{poll_id}")
-    public ResponseEntity<?> deletePoll(@PathVariable Long poll_id){
-        return  pollService.deletePoll(poll_id);
+    public ResponseEntity<?> deletePoll(@PathVariable Long poll_id, @AuthenticationPrincipal UserDetails user){
+        return  pollService.deletePoll(poll_id,user);
     }
 }

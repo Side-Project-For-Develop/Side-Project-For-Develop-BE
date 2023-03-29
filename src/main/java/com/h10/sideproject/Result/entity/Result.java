@@ -2,6 +2,7 @@ package com.h10.sideproject.Result.entity;
 
 import com.h10.sideproject.Result.dto.ResultRequestDto;
 import com.h10.sideproject.common.Timestamped;
+import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.poll.entity.Poll;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,10 @@ public class Result extends Timestamped {
     @JoinColumn(name = "poll_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Poll poll; //설문
+
+    @JoinColumn(name = "member_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member; //멤버
 
     public void update(ResultRequestDto resultRequestDto){
         this.choice = resultRequestDto.getChoice();
