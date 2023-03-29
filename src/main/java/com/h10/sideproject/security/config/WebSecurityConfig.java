@@ -42,6 +42,7 @@ public class WebSecurityConfig {
         // api 허용정책 설정
         http.authorizeRequests()
                 .antMatchers("/api/member/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
                 // JWT 인증/인가를 사용하기 위해 JwtAuthFilter 적용
