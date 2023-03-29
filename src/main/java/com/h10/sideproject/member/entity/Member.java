@@ -1,6 +1,5 @@
 package com.h10.sideproject.member.entity;
 
-import com.h10.sideproject.like.entity.Likes;
 import com.h10.sideproject.poll.entity.Poll;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,9 +29,6 @@ public class Member {
 
     @OneToMany(mappedBy="member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Poll> pollList;
-
-    @OneToMany(mappedBy="member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Likes> LikeList;
 
     @Builder
     public Member( String nickname, String password, String email){
