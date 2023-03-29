@@ -15,7 +15,6 @@ public class MemberMapper {
                 .email(signupRequestDto.getEmail())
                 .nickname(signupRequestDto.getNickname())
                 .password(passwordEncoder.encode(signupRequestDto.getPassword()))
-                .memberId(signupRequestDto.getMemberId())
                 .build();
     }
 }
