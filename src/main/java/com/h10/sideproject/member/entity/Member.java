@@ -1,10 +1,12 @@
 package com.h10.sideproject.member.entity;
 
+import com.h10.sideproject.poll.entity.Poll;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -24,6 +26,9 @@ public class Member {
 
     @Column
     private String profileImage;
+
+    @OneToMany(mappedBy="member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Poll> pollList;
 
     @Builder
     public Member( String nickname, String password, String email){

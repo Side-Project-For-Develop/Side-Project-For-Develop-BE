@@ -1,6 +1,8 @@
 package com.h10.sideproject.poll.entity;
 
 import com.h10.sideproject.category.entity.Category;
+import com.h10.sideproject.common.Timestamped;
+import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.poll.dto.PollRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +15,7 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Poll extends Timestamped{
+public class Poll extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long poll_id;
@@ -39,6 +41,10 @@ public class Poll extends Timestamped{
     @JoinColumn(name = "category_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category; //카테고리
+
+    @JoinColumn(name = "member_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member; //카테고리
 
     public void update(PollRequestDto pollRequestDto,Category category){
         this.title = pollRequestDto.getTitle();

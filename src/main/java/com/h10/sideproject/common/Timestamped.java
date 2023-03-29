@@ -1,4 +1,4 @@
-package com.h10.sideproject.poll.entity;
+package com.h10.sideproject.common;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

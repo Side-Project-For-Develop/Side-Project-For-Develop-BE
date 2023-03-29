@@ -36,7 +36,7 @@ public class PollService {
                 .view(0L)
                 .build()
         );
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("설문 작성 완료",HttpStatus.OK);
     }
 
     @Transactional
