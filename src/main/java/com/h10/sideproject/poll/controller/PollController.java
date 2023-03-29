@@ -21,10 +21,9 @@ public class PollController {
     }
 
     @GetMapping("/poll/{poll_id}")
-    public ResponseEntity<?> readPoll(@PathVariable Long poll_id){
-        return  pollService.readPoll(poll_id);
+    public ResponseEntity<?> readPoll(@PathVariable Long poll_id, @AuthenticationPrincipal UserDetails user){
+        return  pollService.readPoll(poll_id,user);
     }
-
 
     @PatchMapping("/poll/{poll_id}")
     public ResponseEntity<?> updatePoll(@PathVariable Long poll_id, @RequestBody PollRequestDto pollRequestDto, @AuthenticationPrincipal UserDetails user){
@@ -35,4 +34,6 @@ public class PollController {
     public ResponseEntity<?> deletePoll(@PathVariable Long poll_id, @AuthenticationPrincipal UserDetails user){
         return  pollService.deletePoll(poll_id,user);
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.h10.sideproject.poll.service;
 
+import com.h10.sideproject.Result.repository.ResultRepository;
 import com.h10.sideproject.category.entity.Category;
 import com.h10.sideproject.category.repository.CategoryRepository;
 import com.h10.sideproject.member.entity.Member;
@@ -23,6 +24,7 @@ public class PollService {
     private final PollRepository pollRepository;
 
     private final CategoryRepository categoryRepository;
+    private final ResultRepository resultRepository;
 
     @Transactional
     public ResponseEntity<?> createPoll(PollRequestDto pollRequestDto, UserDetails user) {
@@ -44,6 +46,46 @@ public class PollService {
                 .build()
         );
         return new ResponseEntity<>("설문 작성 완료",HttpStatus.OK);
+    }
+
+    @Transactional
+    public ResponseEntity<?> readPoll(Long poll_id, UserDetails user) {
+        Poll poll = pollRepository.findById(poll_id).orElse(null);
+        poll.plusView();
+
+        Member member = memberRepository.findByEmail(user.getUsername()).orElse(null);
+        Boolean check = resultRepository.existsByPollAndMember(poll,member);
+
+        Double total = resultRepository.countAllByPoll(poll);
+        Double count1 = resultRepository.countAllByPollAndChoice(poll,"choice1");
+        Double count2 = resultRepository.countAllByPollAndChoice(poll,"choice2");
+
+        String cal1 = String.format("%.2f",count1/total*100);
+        String cal2 = String.format("%.2f",count2/total*100);
+
+        Double d1 = Double.parseDouble(cal1);
+        Double d2 = Double.parseDouble(cal2);
+
+        System.out.println("cal1 = " + cal1);
+        System.out.println("d1 = " + d1);
+        System.out.println();
+        System.out.println("cal2 = " + cal2);
+        System.out.println("d2 = " + d2);
+
+        PollResponseDto pollResponseDto = PollResponseDto.builder()
+                .nickname(poll.getMember().getNickname())
+                .category(poll.getCategory().getName())
+                .title(poll.getTitle())
+                .choice1(poll.getChoice1())
+                .choice1_img(poll.getChoice1_img())
+                .choice2(poll.getChoice2())
+                .choice2_img(poll.getChoice2_img())
+                .view(poll.getView())
+                .vote(check)
+                .choice1_result(cal1)
+                .choice2_result(cal2)
+                .build();
+        return new ResponseEntity<>(pollResponseDto,HttpStatus.OK);
     }
 
     @Transactional
@@ -73,21 +115,5 @@ public class PollService {
         }
     }
 
-    @Transactional
-    public ResponseEntity<?> readPoll(Long poll_id) {
-        Poll poll = pollRepository.findById(poll_id).orElse(null);
-        poll.plusView();
-        PollResponseDto pollResponseDto = PollResponseDto.builder()
-                .nickname(poll.getMember().getNickname())
-                .title(poll.getTitle())
-                .category(poll.getCategory().getName())
-                .choice1(poll.getChoice1())
-                .choice1_img(poll.getChoice1_img())
-                .choice2(poll.getChoice2())
-                .choice2_img(poll.getChoice2_img())
-                .view(poll.getView())
-                .vote(false)
-                .build();
-        return new ResponseEntity<>(pollResponseDto,HttpStatus.OK);
-    }
+
 }
