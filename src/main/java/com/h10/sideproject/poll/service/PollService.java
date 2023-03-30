@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PollService {
@@ -116,4 +118,39 @@ public class PollService {
     }
 
 
+    public ResponseEntity<?> toks(UserDetails user) {
+        Member member = memberRepository.findByEmail(user.getUsername()).orElse(null);
+        List<Poll> randomList = pollRepository.findAllByMemberNot(member);
+        int idx = (int)(Math.random()*randomList.size());
+        Poll poll = randomList.get(idx);
+        poll.plusView();
+
+        Boolean check = resultRepository.existsByPollAndMember(poll,member);
+
+        Double total = resultRepository.countAllByPoll(poll);
+        Double count1 = resultRepository.countAllByPollAndChoice(poll,"choice1");
+        Double count2 = resultRepository.countAllByPollAndChoice(poll,"choice2");
+
+        String cal1 = String.format("%.2f",count1/total*100);
+        String cal2 = String.format("%.2f",count2/total*100);
+
+        Double d1 = Double.parseDouble(cal1);
+        Double d2 = Double.parseDouble(cal2);
+
+        PollResponseDto pollResponseDto = PollResponseDto.builder()
+                .nickname(poll.getMember().getNickname())
+                .category(poll.getCategory().getName())
+                .title(poll.getTitle())
+                .choice1(poll.getChoice1())
+                .choice1_img(poll.getChoice1_img())
+                .choice2(poll.getChoice2())
+                .choice2_img(poll.getChoice2_img())
+                .view(poll.getView())
+                .vote(check)
+                .choice1_result(cal1)
+                .choice2_result(cal2)
+                .build();
+
+        return new ResponseEntity<>(pollResponseDto,HttpStatus.OK);
+    }
 }
