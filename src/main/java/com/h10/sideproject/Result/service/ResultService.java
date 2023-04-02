@@ -35,12 +35,12 @@ public class ResultService {
     }
 
     @Transactional
-    public ResponseEntity<?> updateResult(ResultRequestDto resultRequestDto, Long result_id, UserDetails user) {
+    public ResponseEntity<?> deleteResult(Long result_id, UserDetails user) {
         Result result = resultRepository.findById(result_id).orElse(null);
         Member member = memberRepository.findByEmail(user.getUsername()).orElse(null);
         if(result != null && result.getMember().getId() == member.getId()){
-            result.update(resultRequestDto);
-            return new ResponseEntity<>("투표 수정 완료", HttpStatus.OK);
+            resultRepository.delete(result);
+            return new ResponseEntity<>("투표 삭제 완료", HttpStatus.OK);
         }else {
             return new ResponseEntity<>("권한 없음", HttpStatus.OK);
         }
