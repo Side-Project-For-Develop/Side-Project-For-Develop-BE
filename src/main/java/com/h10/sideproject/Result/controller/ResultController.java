@@ -20,9 +20,9 @@ public class ResultController {
         return resultService.createResult(poll_id,resultRequestDto,user);
     }
 
-    @PatchMapping("/result/{result_id}")
-    public ResponseEntity<?> updateResult(@PathVariable Long result_id, @RequestBody ResultRequestDto resultRequestDto, @AuthenticationPrincipal UserDetails user){
-        return  resultService.updateResult(resultRequestDto,result_id,user);
+    @DeleteMapping("/result/{result_id}")
+    public ResponseEntity<?> deleteResult(@PathVariable Long result_id, @AuthenticationPrincipal UserDetails user){
+        return  resultService.deleteResult(result_id,user);
     }
 
 }

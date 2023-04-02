@@ -6,3 +6,7 @@
         static : update
       s3:
         bucket : update
+
+  JWT_SECRET_KEY: update
+
+
