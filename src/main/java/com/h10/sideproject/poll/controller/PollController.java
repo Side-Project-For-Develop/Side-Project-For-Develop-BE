@@ -28,8 +28,8 @@ public class PollController {
     }
 
     @PatchMapping("/poll/{poll_id}")
-    public ResponseEntity<?> updatePoll(@PathVariable Long poll_id, @RequestBody PollRequestDto pollRequestDto, @AuthenticationPrincipal MemberDetailsImpl member){
-        return  pollService.updatePoll(pollRequestDto,poll_id,member);
+    public ResponseMessage<?> updatePoll(@PathVariable Long poll_id, @RequestBody PollRequestDto pollRequestDto, @AuthenticationPrincipal MemberDetailsImpl memberDetails){
+        return  pollService.updatePoll(pollRequestDto,poll_id,memberDetails.getMember());
     }
 
     @DeleteMapping("/poll/{poll_id}")

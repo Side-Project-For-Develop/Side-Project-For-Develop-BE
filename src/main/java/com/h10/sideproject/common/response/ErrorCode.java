@@ -29,7 +29,6 @@ public enum ErrorCode {
 
     POLL_NOT_FOUND("존재하지 않는 설문입니다.", HttpStatus.BAD_REQUEST.value());
 
-
     private final String msg;
     private final int statusCode;
 }

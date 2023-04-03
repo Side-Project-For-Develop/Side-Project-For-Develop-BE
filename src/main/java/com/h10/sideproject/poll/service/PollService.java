@@ -4,10 +4,10 @@ import com.h10.sideproject.Result.repository.ResultRepository;
 import com.h10.sideproject.category.entity.Category;
 import com.h10.sideproject.category.mapper.CatrgoryMapper;
 import com.h10.sideproject.category.repository.CategoryRepository;
-import com.h10.sideproject.common.response.MessageCode;
-import com.h10.sideproject.common.response.ResponseMessage;
 import com.h10.sideproject.common.exception.CustomException;
 import com.h10.sideproject.common.response.ErrorCode;
+import com.h10.sideproject.common.response.MessageCode;
+import com.h10.sideproject.common.response.ResponseMessage;
 import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.member.repository.MemberRepository;
 import com.h10.sideproject.poll.dto.PollRequestDto;
@@ -35,7 +35,7 @@ public class PollService {
     private final ResultRepository resultRepository;
     private final PollMapper pollMapper;
     private final CatrgoryMapper catrgoryMapper;
-    @Transactional()
+    @Transactional
     public ResponseMessage<?> createPoll(PollRequestDto pollRequestDto, Member member) {
         Category category = categoryRepository.findByName(pollRequestDto.getCategory()).orElse(null);
 
@@ -81,18 +81,24 @@ public class PollService {
     }
 
     @Transactional
-    public ResponseEntity<?>updatePoll(PollRequestDto pollRequestDto, Long poll_id, UserDetails user) {
-        Poll poll = pollRepository.findById(poll_id).orElse(null);
-        Member member = memberRepository.findByEmail(user.getUsername()).orElse(null);
-        if(poll != null && poll.getMember().getId() == member.getId()){
+    public ResponseMessage<?>updatePoll(PollRequestDto pollRequestDto, Long poll_id, Member member){
+        Poll poll = pollRepository.findById(poll_id).orElseThrow(() -> new CustomException(ErrorCode.POLL_NOT_FOUND));
+
+        if(poll.getMember().getId() == member.getId()){
             Category category = categoryRepository.findByName(pollRequestDto.getCategory()).orElse(null);
             if(category == null){
-                category = categoryRepository.save(Category.builder().name(pollRequestDto.getCategory()).build());
+                category = catrgoryMapper.toCatrgory(pollRequestDto);
             }
             poll.update(pollRequestDto,category);
-            return new ResponseEntity<>("설문 수정 성공",HttpStatus.OK);
+            try {
+                categoryRepository.save(category);
+                pollRepository.save(poll);
+            }catch (Exception exception){
+                throw new CustomException(ErrorCode.POLL_REQUIRED_NOT_ENOUGH);
+            }
+            return new ResponseMessage<>(MessageCode.POLL_UPDATE_SUCCESS,null);
         }else{
-            return new ResponseEntity<>("권한 없음",HttpStatus.OK);
+            return new ResponseMessage<>(ErrorCode.DO_NOT_HAVE_PERMISSION_ERROR_MSG);
         }
     }
 
