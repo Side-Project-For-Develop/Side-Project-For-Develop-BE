@@ -31,10 +31,11 @@ public class Member {
     private List<Poll> pollList;
 
     @Builder
-    public Member( String nickname, String password, String email){
+    public Member( String nickname, String password, String email, String profileImage){
         this.email = email;
         this.nickname = nickname;
         this.password = password;
+        this.profileImage = profileImage;
 
     }
 }
