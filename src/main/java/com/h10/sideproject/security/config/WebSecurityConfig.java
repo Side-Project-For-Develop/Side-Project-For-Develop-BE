@@ -45,6 +45,7 @@ public class WebSecurityConfig {
                 .antMatchers("/api/member/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/poll/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/search/**").permitAll()
                 .anyRequest().authenticated()
                 // JWT 인증/인가를 사용하기 위해 JwtAuthFilter 적용
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
