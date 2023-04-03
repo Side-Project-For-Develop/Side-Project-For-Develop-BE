@@ -1,7 +1,8 @@
-package com.h10.sideproject.common;
+package com.h10.sideproject.common.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @Getter
 @AllArgsConstructor
@@ -20,6 +21,9 @@ public enum MessageCode {
     //리스트페이지
     
     //상세페이지
+    POLL_WRITE_SUCCESS("설문 작성 완료",200),
+    POLL_READ_SUCCESS("설문 조회 완료", HttpStatus.OK.value()),
+    POLL_UPDATE_SUCCESS("설문 수정 완료",HttpStatus.OK.value()),
     
     //댓글
     COMMEMT_CREATE_SUCCESS("댓글 작성 성공", 200),

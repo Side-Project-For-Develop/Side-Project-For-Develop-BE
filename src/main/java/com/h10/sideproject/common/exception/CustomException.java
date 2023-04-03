@@ -1,5 +1,6 @@
 package com.h10.sideproject.common.exception;
 
+import com.h10.sideproject.common.response.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

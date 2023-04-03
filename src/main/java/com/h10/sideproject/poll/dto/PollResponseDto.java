@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PollResponseDto {
+    private Long id;    //설문 아이디
     private String nickname; // 설문 작성자
     private String title; //설문 제목
     private String category; //카테고리

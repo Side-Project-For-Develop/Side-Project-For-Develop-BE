@@ -1,8 +1,7 @@
 package com.h10.sideproject.search.service;
 
 import com.h10.sideproject.Result.repository.ResultRepository;
-import com.h10.sideproject.category.entity.Category;
-import com.h10.sideproject.common.ResponseMessage;
+import com.h10.sideproject.common.response.ResponseMessage;
 import com.h10.sideproject.poll.entity.Poll;
 import com.h10.sideproject.poll.repository.PollRepository;
 import com.h10.sideproject.search.dto.SearchDtoList;

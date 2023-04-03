@@ -1,7 +1,6 @@
-package com.h10.sideproject.common;
+package com.h10.sideproject.common.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.h10.sideproject.common.exception.ErrorCode;
 import lombok.Getter;
 
 @Getter
@@ -30,5 +29,8 @@ public class ResponseMessage<T> {
         this.data = data;
     }
 
-
+    public ResponseMessage(ErrorCode errorCode) {
+        this.msg = errorCode.getMsg();
+        this.statusCode = errorCode.getStatusCode();
+    }
 }

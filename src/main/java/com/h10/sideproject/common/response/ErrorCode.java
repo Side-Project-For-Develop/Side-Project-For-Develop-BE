@@ -1,7 +1,8 @@
-package com.h10.sideproject.common.exception;
+package com.h10.sideproject.common.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 @Getter
@@ -21,9 +22,12 @@ public enum ErrorCode {
 
 
     //jwt
-    DO_NOT_HAVE_PERMISSION_ERROR_MSG("사용 권한이 없습니다.", 403);
+    DO_NOT_HAVE_PERMISSION_ERROR_MSG("사용 권한이 없습니다.", 403),
 
+    //설문
+    POLL_REQUIRED_NOT_ENOUGH("필수항목을 입력해 주세요", HttpStatus.BAD_REQUEST.value()),
 
+    POLL_NOT_FOUND("존재하지 않는 설문입니다.", HttpStatus.BAD_REQUEST.value());
 
     private final String msg;
     private final int statusCode;

@@ -1,7 +1,7 @@
 package com.h10.sideproject.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.h10.sideproject.common.ResponseMessage;
+import com.h10.sideproject.common.response.ResponseMessage;
 import com.h10.sideproject.security.jwt.JwtAuthFilter;
 import com.h10.sideproject.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static com.h10.sideproject.common.exception.ErrorCode.FORBIDDEN_ERROR;
+import static com.h10.sideproject.common.response.ErrorCode.FORBIDDEN_ERROR;
 
 @Configuration
 @RequiredArgsConstructor

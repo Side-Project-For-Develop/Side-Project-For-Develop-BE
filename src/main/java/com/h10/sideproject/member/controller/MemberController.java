@@ -1,7 +1,7 @@
 package com.h10.sideproject.member.controller;
 
-import com.h10.sideproject.common.MessageCode;
-import com.h10.sideproject.common.ResponseMessage;
+import com.h10.sideproject.common.response.MessageCode;
+import com.h10.sideproject.common.response.ResponseMessage;
 import com.h10.sideproject.member.dto.*;
 import com.h10.sideproject.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
