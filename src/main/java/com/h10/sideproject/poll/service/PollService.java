@@ -2,11 +2,12 @@ package com.h10.sideproject.poll.service;
 
 import com.h10.sideproject.Result.repository.ResultRepository;
 import com.h10.sideproject.category.entity.Category;
+import com.h10.sideproject.category.mapper.CatrgoryMapper;
 import com.h10.sideproject.category.repository.CategoryRepository;
-import com.h10.sideproject.common.MessageCode;
-import com.h10.sideproject.common.ResponseMessage;
+import com.h10.sideproject.common.response.MessageCode;
+import com.h10.sideproject.common.response.ResponseMessage;
 import com.h10.sideproject.common.exception.CustomException;
-import com.h10.sideproject.common.exception.ErrorCode;
+import com.h10.sideproject.common.response.ErrorCode;
 import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.member.repository.MemberRepository;
 import com.h10.sideproject.poll.dto.PollRequestDto;
@@ -33,17 +34,18 @@ public class PollService {
     private final CategoryRepository categoryRepository;
     private final ResultRepository resultRepository;
     private final PollMapper pollMapper;
-
-    @Transactional(rollbackFor = CustomException.class)
+    private final CatrgoryMapper catrgoryMapper;
+    @Transactional()
     public ResponseMessage<?> createPoll(PollRequestDto pollRequestDto, Member member) {
         Category category = categoryRepository.findByName(pollRequestDto.getCategory()).orElse(null);
 
         if(category == null){
-            category = categoryRepository.save(Category.builder().name(pollRequestDto.getCategory()).build());
+            category = catrgoryMapper.toCatrgory(pollRequestDto);
         }
 
         Poll poll = pollMapper.toPoll(pollRequestDto,category,member);
         try {
+            categoryRepository.save(category);
             pollRepository.save(poll);
         }catch (Exception exception){
             throw new CustomException(ErrorCode.POLL_REQUIRED_NOT_ENOUGH);
@@ -52,43 +54,30 @@ public class PollService {
     }
 
     @Transactional
-    public ResponseEntity<?> readPoll(Long poll_id, UserDetails user) {
-        Poll poll = pollRepository.findById(poll_id).orElse(null);
+    public ResponseMessage<?> readPoll(Long poll_id, Member member) {
+        Poll poll = pollRepository.findById(poll_id).orElseThrow(() -> new CustomException(ErrorCode.POLL_NOT_FOUND));
         poll.plusView();
 
-        Member member = memberRepository.findByEmail(user.getUsername()).orElse(null);
         Boolean check = resultRepository.existsByPollAndMember(poll,member);
 
         Double total = resultRepository.countAllByPoll(poll);
         Double count1 = resultRepository.countAllByPollAndChoice(poll,"choice1");
         Double count2 = resultRepository.countAllByPollAndChoice(poll,"choice2");
 
-        String cal1 = String.format("%.2f",count1/total*100);
-        String cal2 = String.format("%.2f",count2/total*100);
+        String percent1 = String.format("%.2f",count1/total*100);
+        String percent2 = String.format("%.2f",count2/total*100);
 
-        Double d1 = Double.parseDouble(cal1);
-        Double d2 = Double.parseDouble(cal2);
+        Double d1 = Double.parseDouble(percent1);
+        Double d2 = Double.parseDouble(percent2);
 
-        System.out.println("cal1 = " + cal1);
+        System.out.println("cal1 = " + percent1);
         System.out.println("d1 = " + d1);
         System.out.println();
-        System.out.println("cal2 = " + cal2);
+        System.out.println("cal2 = " + percent2);
         System.out.println("d2 = " + d2);
 
-        PollResponseDto pollResponseDto = PollResponseDto.builder()
-                .nickname(poll.getMember().getNickname())
-                .category(poll.getCategory().getName())
-                .title(poll.getTitle())
-                .choice1(poll.getChoice1())
-                .choice1_img(poll.getChoice1_img())
-                .choice2(poll.getChoice2())
-                .choice2_img(poll.getChoice2_img())
-                .view(poll.getView())
-                .vote(check)
-                .choice1_result(cal1)
-                .choice2_result(cal2)
-                .build();
-        return new ResponseEntity<>(pollResponseDto,HttpStatus.OK);
+        PollResponseDto pollResponseDto = pollMapper.toPollResponseDto(poll,check,percent1,percent2);
+        return new ResponseMessage<>(MessageCode.POLL_READ_SUCCESS,pollResponseDto);
     }
 
     @Transactional

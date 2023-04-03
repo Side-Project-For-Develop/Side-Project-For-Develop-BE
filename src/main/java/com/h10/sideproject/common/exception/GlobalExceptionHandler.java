@@ -1,6 +1,6 @@
 package com.h10.sideproject.common.exception;
 
-import com.h10.sideproject.common.ResponseMessage;
+import com.h10.sideproject.common.response.ResponseMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
