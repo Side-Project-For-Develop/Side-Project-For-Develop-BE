@@ -30,5 +30,8 @@ public class ResponseMessage<T> {
         this.data = data;
     }
 
-
+    public ResponseMessage(ErrorCode errorCode) {
+        this.msg = errorCode.getMsg();
+        this.statusCode = errorCode.getStatusCode();
+    }
 }

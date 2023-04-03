@@ -20,6 +20,7 @@ public enum MessageCode {
     //리스트페이지
     
     //상세페이지
+    POLL_WRITE_SUCCESS("설문 작성 완료",200),
     
     //댓글
     COMMEMT_CREATE_SUCCESS("댓글 작성 성공", 200),

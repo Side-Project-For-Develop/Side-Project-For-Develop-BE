@@ -3,11 +3,16 @@ package com.h10.sideproject.poll.service;
 import com.h10.sideproject.Result.repository.ResultRepository;
 import com.h10.sideproject.category.entity.Category;
 import com.h10.sideproject.category.repository.CategoryRepository;
+import com.h10.sideproject.common.MessageCode;
+import com.h10.sideproject.common.ResponseMessage;
+import com.h10.sideproject.common.exception.CustomException;
+import com.h10.sideproject.common.exception.ErrorCode;
 import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.member.repository.MemberRepository;
 import com.h10.sideproject.poll.dto.PollRequestDto;
 import com.h10.sideproject.poll.dto.PollResponseDto;
 import com.h10.sideproject.poll.entity.Poll;
+import com.h10.sideproject.poll.mapper.PollMapper;
 import com.h10.sideproject.poll.repository.PollRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,27 +32,23 @@ public class PollService {
 
     private final CategoryRepository categoryRepository;
     private final ResultRepository resultRepository;
+    private final PollMapper pollMapper;
 
-    @Transactional
-    public ResponseEntity<?> createPoll(PollRequestDto pollRequestDto, UserDetails user) {
+    @Transactional(rollbackFor = CustomException.class)
+    public ResponseMessage<?> createPoll(PollRequestDto pollRequestDto, Member member) {
         Category category = categoryRepository.findByName(pollRequestDto.getCategory()).orElse(null);
-        Member member = memberRepository.findByEmail(user.getUsername()).orElse(null);
+
         if(category == null){
             category = categoryRepository.save(Category.builder().name(pollRequestDto.getCategory()).build());
         }
-        pollRepository.save(
-                Poll.builder()
-                .title(pollRequestDto.getTitle())
-                .category(category)
-                .choice1(pollRequestDto.getChoice1())
-                .choice1_img(pollRequestDto.getChoice1_img())
-                .choice2(pollRequestDto.getChoice2())
-                .choice2_img(pollRequestDto.getChoice2_img())
-                .view(0L)
-                .member(member)
-                .build()
-        );
-        return new ResponseEntity<>("설문 작성 완료",HttpStatus.OK);
+
+        Poll poll = pollMapper.toPoll(pollRequestDto,category,member);
+        try {
+            pollRepository.save(poll);
+        }catch (Exception exception){
+            throw new CustomException(ErrorCode.POLL_REQUIRED_NOT_ENOUGH);
+        }
+        return new ResponseMessage<>(MessageCode.POLL_WRITE_SUCCESS,null);
     }
 
     @Transactional

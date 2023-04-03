@@ -26,13 +26,12 @@ public class Poll extends Timestamped {
     @Column(nullable = false)
     private String title; //설문 제목
 
-    @Column()
+    @Column(nullable = false)
     private String choice1; //첫번째 선택지
 
     @Column()
     private String choice1_img; //첫번째 선택지 이미지
-
-    @Column()
+    @Column(nullable = false)
     private String choice2; //두번째 선택지
 
     @Column()
@@ -47,7 +46,7 @@ public class Poll extends Timestamped {
 
     @JoinColumn(name = "member_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member member; //카테고리
+    private Member member; //멤버
 
     @OneToMany(mappedBy="poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Result> PollResultList;

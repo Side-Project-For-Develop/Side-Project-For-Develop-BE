@@ -1,7 +1,9 @@
 package com.h10.sideproject.poll.controller;
 
+import com.h10.sideproject.common.ResponseMessage;
 import com.h10.sideproject.poll.dto.PollRequestDto;
 import com.h10.sideproject.poll.service.PollService;
+import com.h10.sideproject.security.MemberDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,8 +18,8 @@ public class PollController {
     private final PollService pollService;
 
     @PostMapping("/poll")
-    public ResponseEntity<?> createPoll(@RequestBody PollRequestDto pollRequestDto, @AuthenticationPrincipal UserDetails user) {
-        return pollService.createPoll(pollRequestDto,user);
+    public ResponseMessage<?> createPoll(@RequestBody PollRequestDto pollRequestDto, @AuthenticationPrincipal MemberDetailsImpl member) {
+        return pollService.createPoll(pollRequestDto,member.getMember());
     }
 
     @GetMapping("/poll/{poll_id}")
@@ -26,8 +28,8 @@ public class PollController {
     }
 
     @PatchMapping("/poll/{poll_id}")
-    public ResponseEntity<?> updatePoll(@PathVariable Long poll_id, @RequestBody PollRequestDto pollRequestDto, @AuthenticationPrincipal UserDetails user){
-        return  pollService.updatePoll(pollRequestDto,poll_id,user);
+    public ResponseEntity<?> updatePoll(@PathVariable Long poll_id, @RequestBody PollRequestDto pollRequestDto, @AuthenticationPrincipal MemberDetailsImpl member){
+        return  pollService.updatePoll(pollRequestDto,poll_id,member);
     }
 
     @DeleteMapping("/poll/{poll_id}")
