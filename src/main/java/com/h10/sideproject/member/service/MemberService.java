@@ -9,6 +9,7 @@ import com.h10.sideproject.member.repository.MemberRepository;
 import com.h10.sideproject.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +19,7 @@ import java.util.Optional;
 import static com.h10.sideproject.common.exception.ErrorCode.INCORRECT_PASSWORD;
 import static com.h10.sideproject.common.exception.ErrorCode.MEMBER_NOT_FOUND;
 
-@RestController
+@Service
 @RequiredArgsConstructor
 public class MemberService {
 
