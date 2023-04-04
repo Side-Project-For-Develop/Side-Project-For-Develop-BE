@@ -16,6 +16,7 @@ import com.h10.sideproject.poll.entity.Poll;
 import com.h10.sideproject.poll.mapper.PollMapper;
 import com.h10.sideproject.poll.repository.PollRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -93,8 +94,8 @@ public class PollService {
             try {
                 categoryRepository.save(category);
                 pollRepository.save(poll);
-            }catch (Exception exception){
-                throw new CustomException(ErrorCode.POLL_REQUIRED_NOT_ENOUGH);
+            }catch(DataIntegrityViolationException exception){
+                throw new CustomException(ErrorCode.POLL_REQUIRED_NOT_ENOUGH12);
             }
             return new ResponseMessage<>(MessageCode.POLL_UPDATE_SUCCESS,null);
         }else{

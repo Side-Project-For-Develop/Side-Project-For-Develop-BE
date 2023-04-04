@@ -9,6 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -18,6 +20,18 @@ public class GlobalExceptionHandler {
                 , HttpStatus.OK);
     }
 
+//    @ExceptionHandler({SQLIntegrityConstraintViolationException.class})
+//    protected ResponseEntity SQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
+//        return new ResponseEntity(new ResponseMessage<>("필수 항목을 입력해 주세요", HttpStatus.BAD_REQUEST.value(), null)
+//                , HttpStatus.BAD_REQUEST);
+//    }
+
+    @ExceptionHandler({ConstraintViolationException.class})
+    protected ResponseEntity ConstraintViolationException(ConstraintViolationException ex) {
+        String message = ex.getConstraintViolations().iterator().next().getMessage();
+        return new ResponseEntity(new ResponseMessage<>(message, HttpStatus.BAD_REQUEST.value(), null)
+                , HttpStatus.BAD_REQUEST);
+    }
     @ExceptionHandler({MethodArgumentNotValidException.class})
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
@@ -30,13 +44,12 @@ public class GlobalExceptionHandler {
                     .append(":")
                     .append(error.getDefaultMessage());
         }
-
         return new ResponseEntity<>(new ResponseMessage(errMessage.toString(), 404, "error"), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({Exception.class})
-    protected ResponseEntity handleServerException(Exception ex) {
-        return new ResponseEntity(new ResponseMessage(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "error")
-                , HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler({Exception.class})
+//    protected ResponseEntity handleServerException(Exception ex) {
+//        return new ResponseEntity(new ResponseMessage(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "error")
+//                , HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 }
