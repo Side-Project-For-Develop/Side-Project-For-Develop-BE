@@ -26,6 +26,7 @@ public enum ErrorCode {
 
     //설문
     POLL_REQUIRED_NOT_ENOUGH("필수항목을 입력해 주세요", HttpStatus.BAD_REQUEST.value()),
+    POLL_REQUIRED_NOT_ENOUGH12("필수항목12을 입력해 주세요", HttpStatus.BAD_REQUEST.value()),
 
     POLL_NOT_FOUND("존재하지 않는 설문입니다.", HttpStatus.BAD_REQUEST.value());
 

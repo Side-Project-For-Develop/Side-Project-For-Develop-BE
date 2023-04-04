@@ -5,12 +5,10 @@ import com.h10.sideproject.category.entity.Category;
 import com.h10.sideproject.common.Timestamped;
 import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.poll.dto.PollRequestDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -27,6 +25,7 @@ public class Poll extends Timestamped {
     private String title; //설문 제목
 
     @Column(nullable = false)
+    @NotNull(message = "첫번째 선택지는 null이 될수없음")
     private String choice1; //첫번째 선택지
 
     @Column()
