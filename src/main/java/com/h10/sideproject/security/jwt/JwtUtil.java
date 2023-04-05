@@ -29,9 +29,9 @@ public class JwtUtil {
     private static final String BEARER_PREFIX = "Bearer ";
     private static final long TOKEN_TIME = 60 * 60 * 1000L;
 
-
     private final MemberDetailsServiceImpl memberDetailsService;
-    //원인이고 Key 로 변환할 수 없어서 문제가 되는 것
+
+
     @Value("${JWT_SECRET_KEY}")
     private String secretKey;
     private Key key;
@@ -92,9 +92,11 @@ public class JwtUtil {
         UserDetails userDetails = memberDetailsService.loadUserByUsername(email);
         return new UsernamePasswordAuthenticationToken(userDetails, null, null);
     }
+
     //토큰 무효화 작업
     public void invalidateToken(String token) {
         Claims claims = getMemberInfoFromToken(token);
         claims.put("", new Date());
     }
 }
+
