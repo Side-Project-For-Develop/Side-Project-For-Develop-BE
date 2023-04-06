@@ -9,7 +9,6 @@ import com.h10.sideproject.common.response.ErrorCode;
 import com.h10.sideproject.common.response.MessageCode;
 import com.h10.sideproject.common.response.ResponseMessage;
 import com.h10.sideproject.member.entity.Member;
-import com.h10.sideproject.member.repository.MemberRepository;
 import com.h10.sideproject.poll.dto.PollRequestDto;
 import com.h10.sideproject.poll.dto.PollResponseDto;
 import com.h10.sideproject.poll.entity.Poll;
@@ -25,10 +24,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PollService {
-    private final MemberRepository memberRepository;
-
     private final PollRepository pollRepository;
-
     private final CategoryRepository categoryRepository;
     private final ResultRepository resultRepository;
     private final PollMapper pollMapper;
@@ -86,7 +82,7 @@ public class PollService {
             poll.update(pollRequestDto,category);
             return new ResponseMessage<>(MessageCode.POLL_UPDATE_SUCCESS,null);
         }else{
-            return new ResponseMessage<>(ErrorCode.POLL_NOT_PERMISSION);
+            return new ResponseMessage<>(ErrorCode.POLL_NOT_PERMISSION,ErrorCode.POLL_NOT_PERMISSION);
         }
     }
 
@@ -97,7 +93,7 @@ public class PollService {
             pollRepository.deleteById(poll_id);
             return new ResponseMessage<>(MessageCode.POLL_DELETE_SUCCESS,null);
         }else{
-            return new ResponseMessage<>(ErrorCode.POLL_NOT_PERMISSION);
+            return new ResponseMessage<>(ErrorCode.POLL_NOT_PERMISSION,ErrorCode.POLL_NOT_PERMISSION);
         }
     }
 
@@ -127,7 +123,7 @@ public class PollService {
 
             return new ResponseMessage<>(MessageCode.TOKS_READ_SUCCESS,pollResponseDto);
         }else {
-            return new ResponseMessage<>(ErrorCode.TOKS_NOT_FOUND);
+            return new ResponseMessage<>(ErrorCode.TOKS_NOT_FOUND,ErrorCode.TOKS_NOT_FOUND);
         }
     }
 }

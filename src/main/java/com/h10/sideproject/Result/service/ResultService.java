@@ -9,7 +9,6 @@ import com.h10.sideproject.common.response.ErrorCode;
 import com.h10.sideproject.common.response.MessageCode;
 import com.h10.sideproject.common.response.ResponseMessage;
 import com.h10.sideproject.member.entity.Member;
-import com.h10.sideproject.member.repository.MemberRepository;
 import com.h10.sideproject.poll.entity.Poll;
 import com.h10.sideproject.poll.repository.PollRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class ResultService {
-    private final MemberRepository memberRepository;
-    private final PollRepository pollRepository;
+     private final PollRepository pollRepository;
     private final ResultRepository resultRepository;
 
     private final ResultMapper resultMapper;
@@ -29,7 +27,7 @@ public class ResultService {
         Poll poll = pollRepository.findById(poll_id).orElseThrow(() -> new CustomException(ErrorCode.POLL_NOT_FOUND));
         boolean check = resultRepository.existsByPollAndMember(poll,member);
         if(check){
-            return new ResponseMessage<>(ErrorCode.VOTE_DUPLICATE);
+            return new ResponseMessage<>(ErrorCode.VOTE_DUPLICATE,ErrorCode.VOTE_DUPLICATE);
         }else{
             Result result= resultMapper.toResult(resultRequestDto,poll,member);
             resultRepository.save(result);
@@ -44,7 +42,7 @@ public class ResultService {
             resultRepository.delete(result);
             return new ResponseMessage<>(MessageCode.VOTE_DELETE_SUCCESS, HttpStatus.OK);
         }else {
-            return new ResponseMessage<>(ErrorCode.VOTE_NOT_PERMISSION);
+            return new ResponseMessage<>(ErrorCode.VOTE_NOT_PERMISSION,ErrorCode.VOTE_NOT_PERMISSION);
         }
     }
 }
