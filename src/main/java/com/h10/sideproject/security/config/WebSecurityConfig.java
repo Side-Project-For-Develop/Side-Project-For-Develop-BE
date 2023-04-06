@@ -44,6 +44,7 @@ public class WebSecurityConfig {
         http.authorizeRequests()
                 .antMatchers("/api/member/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/api/toks/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/poll/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/search/**").permitAll()
                 .anyRequest().authenticated()

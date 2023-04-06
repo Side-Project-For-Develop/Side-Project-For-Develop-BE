@@ -15,10 +15,8 @@ import com.h10.sideproject.poll.dto.PollResponseDto;
 import com.h10.sideproject.poll.entity.Poll;
 import com.h10.sideproject.poll.mapper.PollMapper;
 import com.h10.sideproject.poll.repository.PollRepository;
+import com.h10.sideproject.security.MemberDetailsImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,11 +47,11 @@ public class PollService {
     }
 
     @Transactional
-    public ResponseMessage<?> readPoll(Long poll_id, Member member) {
+    public ResponseMessage<?> readPoll(Long poll_id, MemberDetailsImpl memberDetails) {
         Poll poll = pollRepository.findById(poll_id).orElseThrow(() -> new CustomException(ErrorCode.POLL_NOT_FOUND));
         poll.plusView();
 
-        Boolean check = resultRepository.existsByPollAndMember(poll,member);
+        Boolean check =  memberDetails != null && resultRepository.existsByPollAndMember(poll, memberDetails.getMember());
 
         Double total = resultRepository.countAllByPoll(poll);
         Double count1 = resultRepository.countAllByPollAndChoice(poll,"choice1");
@@ -103,39 +101,33 @@ public class PollService {
         }
     }
 
-    public ResponseEntity<?> toks(UserDetails user) {
-        Member member = memberRepository.findByEmail(user.getUsername()).orElse(null);
-        List<Poll> randomList = pollRepository.findAllByMemberNot(member);
-        int idx = (int)(Math.random()*randomList.size());
-        Poll poll = randomList.get(idx);
-        poll.plusView();
+    public ResponseMessage<?> toks(MemberDetailsImpl memberDetails) {
+        List<Poll> randomList;
+        if(memberDetails == null){
+            randomList = pollRepository.findAll();
+        }else{
+            randomList = pollRepository.findAllByMemberNot(memberDetails.getMember());
 
-        Boolean check = resultRepository.existsByPollAndMember(poll,member);
+        }
+        if(randomList.size() != 0){
+            int idx = (int)(Math.random()*randomList.size());
+            Poll poll = randomList.get(idx);
+            poll.plusView();
 
-        Double total = resultRepository.countAllByPoll(poll);
-        Double count1 = resultRepository.countAllByPollAndChoice(poll,"choice1");
-        Double count2 = resultRepository.countAllByPollAndChoice(poll,"choice2");
+            Boolean check = memberDetails != null && resultRepository.existsByPollAndMember(poll, memberDetails.getMember());
 
-        String cal1 = String.format("%.2f",count1/total*100);
-        String cal2 = String.format("%.2f",count2/total*100);
+            Double total = resultRepository.countAllByPoll(poll);
+            Double count1 = resultRepository.countAllByPollAndChoice(poll,"choice1");
+            Double count2 = resultRepository.countAllByPollAndChoice(poll,"choice2");
 
-        Double d1 = Double.parseDouble(cal1);
-        Double d2 = Double.parseDouble(cal2);
+            String cal1 = String.format("%.2f",count1/total*100);
+            String cal2 = String.format("%.2f",count2/total*100);
 
-        PollResponseDto pollResponseDto = PollResponseDto.builder()
-                .nickname(poll.getMember().getNickname())
-                .category(poll.getCategory().getName())
-                .title(poll.getTitle())
-                .choice1(poll.getChoice1())
-                .choice1_img(poll.getChoice1_img())
-                .choice2(poll.getChoice2())
-                .choice2_img(poll.getChoice2_img())
-                .view(poll.getView())
-                .vote(check)
-                .choice1_result(cal1)
-                .choice2_result(cal2)
-                .build();
+            PollResponseDto pollResponseDto = pollMapper.toPollResponseDto(poll,check,cal1,cal2);
 
-        return new ResponseEntity<>(pollResponseDto,HttpStatus.OK);
+            return new ResponseMessage<>(MessageCode.TOKS_READ_SUCCESS,pollResponseDto);
+        }else {
+            return new ResponseMessage<>(ErrorCode.TOKS_NOT_FOUND);
+        }
     }
 }
