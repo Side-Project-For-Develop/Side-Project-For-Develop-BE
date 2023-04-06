@@ -27,7 +27,7 @@ public class ResultService {
         Poll poll = pollRepository.findById(poll_id).orElseThrow(() -> new CustomException(ErrorCode.POLL_NOT_FOUND));
         boolean check = resultRepository.existsByPollAndMember(poll,member);
         if(check){
-            return new ResponseMessage<>(ErrorCode.VOTE_DUPLICATE,ErrorCode.VOTE_DUPLICATE);
+            return new ResponseMessage<>(ErrorCode.VOTE_DUPLICATE);
         }else{
             Result result= resultMapper.toResult(resultRequestDto,poll,member);
             resultRepository.save(result);
@@ -42,7 +42,7 @@ public class ResultService {
             resultRepository.delete(result);
             return new ResponseMessage<>(MessageCode.VOTE_DELETE_SUCCESS, HttpStatus.OK);
         }else {
-            return new ResponseMessage<>(ErrorCode.VOTE_NOT_PERMISSION,ErrorCode.VOTE_NOT_PERMISSION);
+            return new ResponseMessage<>(ErrorCode.VOTE_NOT_PERMISSION);
         }
     }
 }

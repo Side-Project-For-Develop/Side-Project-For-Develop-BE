@@ -82,7 +82,7 @@ public class PollService {
             poll.update(pollRequestDto,category);
             return new ResponseMessage<>(MessageCode.POLL_UPDATE_SUCCESS,null);
         }else{
-            return new ResponseMessage<>(ErrorCode.POLL_NOT_PERMISSION,ErrorCode.POLL_NOT_PERMISSION);
+            return new ResponseMessage<>(ErrorCode.POLL_NOT_PERMISSION);
         }
     }
 
@@ -93,7 +93,7 @@ public class PollService {
             pollRepository.deleteById(poll_id);
             return new ResponseMessage<>(MessageCode.POLL_DELETE_SUCCESS,null);
         }else{
-            return new ResponseMessage<>(ErrorCode.POLL_NOT_PERMISSION,ErrorCode.POLL_NOT_PERMISSION);
+            return new ResponseMessage<>(ErrorCode.POLL_NOT_PERMISSION);
         }
     }
 
@@ -123,7 +123,7 @@ public class PollService {
 
             return new ResponseMessage<>(MessageCode.TOKS_READ_SUCCESS,pollResponseDto);
         }else {
-            return new ResponseMessage<>(ErrorCode.TOKS_NOT_FOUND,ErrorCode.TOKS_NOT_FOUND);
+            return new ResponseMessage<>(ErrorCode.TOKS_NOT_FOUND);
         }
     }
 }
