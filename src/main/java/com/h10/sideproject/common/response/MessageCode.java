@@ -21,10 +21,11 @@ public enum MessageCode {
     //리스트페이지
     
     //상세페이지
-    POLL_WRITE_SUCCESS("설문 작성 완료",200),
+    POLL_WRITE_SUCCESS("설문 작성 완료",HttpStatus.OK.value()),
     POLL_READ_SUCCESS("설문 조회 완료", HttpStatus.OK.value()),
     POLL_UPDATE_SUCCESS("설문 수정 완료",HttpStatus.OK.value()),
-    
+    POLL_DELETE_SUCCESS("설문 삭제 완료",HttpStatus.OK.value()),
+
     //댓글
     COMMEMT_CREATE_SUCCESS("댓글 작성 성공", 200),
     COMMENT_CHECK_SUCCESS("특정 게시글의 댓글 조회 성공", 200),

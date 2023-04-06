@@ -33,8 +33,8 @@ public class PollController {
     }
 
     @DeleteMapping("/poll/{poll_id}")
-    public ResponseEntity<?> deletePoll(@PathVariable Long poll_id, @AuthenticationPrincipal UserDetails user){
-        return  pollService.deletePoll(poll_id,user);
+    public ResponseMessage<?> deletePoll(@PathVariable Long poll_id, @AuthenticationPrincipal MemberDetailsImpl memberDetails){
+        return  pollService.deletePoll(poll_id,memberDetails.getMember());
     }
     @GetMapping("/toks")
     public ResponseEntity<?> toks(@AuthenticationPrincipal UserDetails user){

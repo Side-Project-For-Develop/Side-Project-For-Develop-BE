@@ -16,7 +16,6 @@ import com.h10.sideproject.poll.entity.Poll;
 import com.h10.sideproject.poll.mapper.PollMapper;
 import com.h10.sideproject.poll.repository.PollRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,15 +41,10 @@ public class PollService {
 
         if(category == null){
             category = catrgoryMapper.toCatrgory(pollRequestDto);
-        }
-
-        Poll poll = pollMapper.toPoll(pollRequestDto,category,member);
-        try {
             categoryRepository.save(category);
-            pollRepository.save(poll);
-        }catch (Exception exception){
-            throw new CustomException(ErrorCode.POLL_REQUIRED_NOT_ENOUGH);
         }
+        Poll poll = pollMapper.toPoll(pollRequestDto,category,member);
+        pollRepository.save(poll);
         return new ResponseMessage<>(MessageCode.POLL_WRITE_SUCCESS,null);
     }
 
@@ -89,31 +83,25 @@ public class PollService {
             Category category = categoryRepository.findByName(pollRequestDto.getCategory()).orElse(null);
             if(category == null){
                 category = catrgoryMapper.toCatrgory(pollRequestDto);
+                categoryRepository.save(category);
             }
             poll.update(pollRequestDto,category);
-            try {
-                categoryRepository.save(category);
-                pollRepository.save(poll);
-            }catch(DataIntegrityViolationException exception){
-                throw new CustomException(ErrorCode.POLL_REQUIRED_NOT_ENOUGH12);
-            }
             return new ResponseMessage<>(MessageCode.POLL_UPDATE_SUCCESS,null);
         }else{
-            return new ResponseMessage<>(ErrorCode.DO_NOT_HAVE_PERMISSION_ERROR_MSG);
+            return new ResponseMessage<>(ErrorCode.POLL_NOT_PERMISSION);
         }
     }
 
-    public ResponseEntity<?> deletePoll(Long poll_id, UserDetails user) {
-        Poll poll = pollRepository.findById(poll_id).orElse(null);
-        Member member = memberRepository.findByEmail(user.getUsername()).orElse(null);
-        if(poll != null && poll.getMember().getId() == member.getId()){
+    @Transactional
+    public ResponseMessage<?> deletePoll(Long poll_id, Member member) {
+        Poll poll = pollRepository.findById(poll_id).orElseThrow(() -> new CustomException(ErrorCode.POLL_NOT_FOUND));
+        if(poll.getMember().getId() == member.getId()){
             pollRepository.deleteById(poll_id);
-            return new ResponseEntity<>("설문 삭제 성공",HttpStatus.OK);
+            return new ResponseMessage<>(MessageCode.POLL_DELETE_SUCCESS,null);
         }else{
-            return new ResponseEntity<>("권한 없음",HttpStatus.OK);
+            return new ResponseMessage<>(ErrorCode.POLL_NOT_PERMISSION);
         }
     }
-
 
     public ResponseEntity<?> toks(UserDetails user) {
         Member member = memberRepository.findByEmail(user.getUsername()).orElse(null);
