@@ -83,7 +83,7 @@ public class JwtUtil {
     }
 
     // 토큰에서 사용자 정보 가져오기
-    public Claims getUserInfoFromToken(String token) {
+    public Claims getMemberInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
@@ -93,4 +93,10 @@ public class JwtUtil {
         return new UsernamePasswordAuthenticationToken(userDetails, null, null);
     }
 
+    //토큰 무효화 작업
+    public void invalidateToken(String token) {
+        Claims claims = getMemberInfoFromToken(token);
+        claims.put("", new Date());
+    }
 }
+
