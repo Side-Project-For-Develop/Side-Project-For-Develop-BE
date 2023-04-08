@@ -5,9 +5,7 @@ import com.h10.sideproject.poll.dto.PollRequestDto;
 import com.h10.sideproject.poll.service.PollService;
 import com.h10.sideproject.security.MemberDetailsImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,7 +22,7 @@ public class PollController {
 
     @GetMapping("/poll/{poll_id}")
     public ResponseMessage<?> readPoll(@PathVariable Long poll_id, @AuthenticationPrincipal MemberDetailsImpl memberDetails){
-        return  pollService.readPoll(poll_id,memberDetails.getMember());
+        return  pollService.readPoll(poll_id,memberDetails);
     }
 
     @PatchMapping("/poll/{poll_id}")
@@ -33,12 +31,12 @@ public class PollController {
     }
 
     @DeleteMapping("/poll/{poll_id}")
-    public ResponseEntity<?> deletePoll(@PathVariable Long poll_id, @AuthenticationPrincipal UserDetails user){
-        return  pollService.deletePoll(poll_id,user);
+    public ResponseMessage<?> deletePoll(@PathVariable Long poll_id, @AuthenticationPrincipal MemberDetailsImpl memberDetails){
+        return  pollService.deletePoll(poll_id,memberDetails.getMember());
     }
     @GetMapping("/toks")
-    public ResponseEntity<?> toks(@AuthenticationPrincipal UserDetails user){
-        return  pollService.toks(user);
+    public ResponseMessage<?> toks( @AuthenticationPrincipal MemberDetailsImpl memberDetails){
+        return  pollService.toks(memberDetails);
     }
 
 }

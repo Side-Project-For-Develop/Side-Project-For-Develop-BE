@@ -26,9 +26,14 @@ public enum ErrorCode {
 
     //설문
     POLL_REQUIRED_NOT_ENOUGH("필수항목을 입력해 주세요", HttpStatus.BAD_REQUEST.value()),
-    POLL_REQUIRED_NOT_ENOUGH12("필수항목12을 입력해 주세요", HttpStatus.BAD_REQUEST.value()),
+    POLL_NOT_PERMISSION("작성자가 일치하지 않습니다.", HttpStatus.BAD_REQUEST.value()),
+    POLL_NOT_FOUND("존재하지 않는 설문입니다.", HttpStatus.BAD_REQUEST.value()),
+    TOKS_NOT_FOUND("TOKS를 조회할수 없습니다.", HttpStatus.BAD_REQUEST.value()),
 
-    POLL_NOT_FOUND("존재하지 않는 설문입니다.", HttpStatus.BAD_REQUEST.value());
+    //투표하기
+    VOTE_DUPLICATE("이미 투표한 설문입니다.",HttpStatus.BAD_REQUEST.value()),
+    VOTE_NOT_FOUND("존재하지 않는 투표결과입니다.", HttpStatus.BAD_REQUEST.value()),
+    VOTE_NOT_PERMISSION("투표자가 일치하지 않습니다.", HttpStatus.BAD_REQUEST.value());
 
     private final String msg;
     private final int statusCode;
