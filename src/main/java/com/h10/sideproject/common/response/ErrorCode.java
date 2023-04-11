@@ -2,6 +2,7 @@ package com.h10.sideproject.common.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
 import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
@@ -19,6 +20,8 @@ public enum ErrorCode {
     NOT_FOUND_EMAIL("해당 email 이 없습니다.", 404),
     NOT_FOUND_COMMENT("해당 댓글이 없습니다.", 404),
     NOT_FOUND_ID("해당 유저의 아이디가 없습니다", 404),
+    NOT_FOUND_KAKAOID("해당 유저의 카카오 아이디가 없습니다.", 404),
+
 
     //이미지 업로드
     IMAGE_UPLOAD_FAIL("이미지 파일이 올바르지 않습니다.",400),
