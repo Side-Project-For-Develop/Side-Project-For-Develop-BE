@@ -21,7 +21,6 @@ import java.io.IOException;
 import static com.h10.sideproject.common.response.ErrorCode.MEMBER_NOT_FOUND;
 import static com.h10.sideproject.common.response.ErrorCode.TOKEN_ERROR;
 
-
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -43,7 +42,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             jwtExceptionHandler(response, TOKEN_ERROR);
             return;
         }
-        Claims info = jwtUtil.getUserInfoFromToken(token);
+        Claims info = jwtUtil.getMemberInfoFromToken(token);
         setAuthentication(response, (String) info.get("id"));
         filterChain.doFilter(request, response);
     }
