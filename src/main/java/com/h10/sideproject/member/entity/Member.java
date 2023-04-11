@@ -1,6 +1,7 @@
 package com.h10.sideproject.member.entity;
 
 import com.h10.sideproject.comment.entity.Comment;
+import com.h10.sideproject.poll.entity.Poll;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,22 +12,30 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Setter
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String email;
+
     private Long kakaoId;
+    
     @Column(nullable = false)
     private String password;
+    
     @Column(nullable = false)
     private String nickname;
+    
     @Column
     private String profileImage;
+    
+    @OneToMany(mappedBy="member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Poll> pollList;
+    
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
+    
     @Builder
     public Member(String email, String password, String nickname, Long kakaoId, String profileImage){
         this.email = email;

@@ -1,0 +1,12 @@
+  cloud:
+    aws:
+      access-key : update
+      secret-key : update
+      region:
+        static : update
+      s3:
+        bucket : update
+
+  JWT_SECRET_KEY: update
+
+
