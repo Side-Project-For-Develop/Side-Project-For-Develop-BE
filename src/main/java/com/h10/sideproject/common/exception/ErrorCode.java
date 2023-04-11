@@ -19,6 +19,7 @@ public enum ErrorCode {
     NOT_FOUND_EMAIL("해당 email 이 없습니다.", 404),
     NOT_FOUND_COMMENT("해당 댓글이 없습니다.", 404),
     NOT_FOUND_ID("해당 유저의 아이디가 없습니다", 404),
+    NOT_FOUND_KAKAOID("해당 유저의 카카오 아이디가 없습니다.", 404),
 
 
     //필터단 에러

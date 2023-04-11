@@ -11,7 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Setter
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,11 +27,10 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
     @Builder
-    public Member(String email, String password, String nickname, Long kakaoId, String profileImage){
+    public Member(String email, String password, String nickname, String profileImage){
         this.email = email;
         this.password = password;
         this.nickname = nickname;
-        this.kakaoId = kakaoId;
         this.profileImage = profileImage;
     }
     public Member(Long kakaoId, String password, String email) {
