@@ -23,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
-import static com.h10.sideproject.common.exception.ErrorCode.NOT_FOUND_KAKAOID;
+import static com.h10.sideproject.common.response.ErrorCode.NOT_FOUND_KAKAOID;
 
 
 @Slf4j
