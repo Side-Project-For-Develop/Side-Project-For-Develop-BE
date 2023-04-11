@@ -48,6 +48,8 @@ public class WebSecurityConfig {
                 .antMatchers("/api/upload/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/poll/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/search/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/topic/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/keyword/**").permitAll()
                 .anyRequest().authenticated()
                 // JWT 인증/인가를 사용하기 위해 JwtAuthFilter 적용
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);

@@ -52,8 +52,16 @@ public class SearchService {
             }
 
         }else {
-            Search search = searchMapper.toWordsRequestDto(words);
-            searchRepository.save(search);
+            boolean check = searchRepository.existsByWords(words);
+            Search search;
+            if(check){
+                search = searchRepository.findByWords(words);
+                search.Counting();
+            }else{
+                search = searchMapper.toWordsRequestDto(words);
+                searchRepository.save(search);
+            }
+
             if (category.isEmpty() && filter.isEmpty()) {
                 returnPollList = pollRepository.findByTitleContainingOrChoice1ContainingOrChoice2ContainingOrderByViewDesc(words, words, words);
             } else if (category.isEmpty() && filter != null) {
@@ -77,11 +85,11 @@ public class SearchService {
             }
         }
         List<SearchResponseDto> searchResponseDtoList = new ArrayList<>();
-            for (Poll poll : returnPollList) {
-                SearchResponseDto searchResponseDto = searchMapper.toSearchResponseDto(poll, resultRepository.countAllByPoll(poll));
-                searchResponseDtoList.add(searchResponseDto);
-            }
-            return new ResponseMessage("Success", 200, new SearchDtoList(searchResponseDtoList));
+        for (Poll poll : returnPollList) {
+            SearchResponseDto searchResponseDto = searchMapper.toSearchResponseDto(poll, resultRepository.countAllByPoll(poll));
+            searchResponseDtoList.add(searchResponseDto);
+        }
+        return new ResponseMessage("Success", 200, new SearchDtoList(searchResponseDtoList));
 
 
 
