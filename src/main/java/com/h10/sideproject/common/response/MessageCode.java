@@ -38,13 +38,15 @@ public enum MessageCode {
     COMMENT_CHECK_SUCCESS("특정 게시글의 댓글 조회 성공", 200),
     COMMENT_UPDATE_SUCCESS("댓글 수정 성공", 200),
     COMMENT_DELETE_SUCCESS("댓글 삭제 성공", 200),
+
     //좋아요
-    
+
     //프로필
     PROFILE_UPDATE_SUCCESS("프로필 수정 성공", 200),
     MEMBER_LOGOUT_SUCCESS("로그아웃 성공", 200),
-    MEMBER_DELETE_SUCCESS("회원탈퇴 성공", 200);
+    MEMBER_DELETE_SUCCESS("회원탈퇴 성공", 200),
     //토큰 관련
+    TOKEN_RETURN_SUCCESS("토큰 반환 성공", 200);
     private final String msg;
     private final int statusCode;
 

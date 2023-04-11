@@ -1,6 +1,7 @@
 package com.h10.sideproject.refreshToken.controller;
 
-import com.h10.sideproject.common.ResponseMessage;
+import com.h10.sideproject.common.response.MessageCode;
+import com.h10.sideproject.common.response.ResponseMessage;
 import com.h10.sideproject.refreshToken.dto.RefreshTokenRequest;
 import com.h10.sideproject.refreshToken.dto.RefreshTokenResponse;
 import com.h10.sideproject.refreshToken.service.RefreshTokenService;
@@ -8,8 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import static com.h10.sideproject.common.MessageCode.TOKEN_RETURN_SUCCESS;
 
 @RequestMapping("/api")
 @RestController
@@ -24,6 +23,6 @@ public class RefreshTokenController {
     @PostMapping("/refresh_token")
     public ResponseMessage<?> generateRefreshToken(@RequestBody RefreshTokenRequest refreshTokenRequest) {
         RefreshTokenResponse refreshTokenResponse = refreshTokenService.createRefreshToken(refreshTokenRequest);
-        return new ResponseMessage<>(TOKEN_RETURN_SUCCESS, refreshTokenResponse);
+        return new ResponseMessage<>(MessageCode.TOKEN_RETURN_SUCCESS, refreshTokenResponse);
     }
 }
