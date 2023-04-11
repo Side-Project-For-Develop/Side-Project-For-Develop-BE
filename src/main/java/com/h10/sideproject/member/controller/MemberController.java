@@ -1,18 +1,15 @@
 package com.h10.sideproject.member.controller;
 
+
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.h10.sideproject.common.MessageCode;
-import com.h10.sideproject.common.ResponseMessage;
-import com.h10.sideproject.member.dto.EmailCheckDto;
-import com.h10.sideproject.member.dto.LoginRequestDto;
-import com.h10.sideproject.member.dto.NicknameCheckDto;
-import com.h10.sideproject.member.dto.SignupRequestDto;
+import com.h10.sideproject.common.response.MessageCode;
+import com.h10.sideproject.common.response.ResponseMessage;
+import com.h10.sideproject.member.dto.*;
 import com.h10.sideproject.member.service.KakaoService;
 import com.h10.sideproject.member.service.MemberService;
-import com.h10.sideproject.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import com.h10.sideproject.security.jwt.JwtUtil;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -23,6 +20,7 @@ import javax.validation.Valid;
 public class MemberController {
     private final MemberService memberService;
     private final KakaoService kakaoService;
+
 
     @PostMapping("/member/signup")
     public ResponseMessage<?> signup(@RequestBody @Valid SignupRequestDto signupRequestDto){
@@ -62,3 +60,4 @@ public class MemberController {
         return "redirect:/api/toks";
     }
 }
+

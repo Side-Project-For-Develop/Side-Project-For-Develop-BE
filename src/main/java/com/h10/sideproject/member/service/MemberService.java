@@ -1,11 +1,9 @@
 package com.h10.sideproject.member.service;
 
 import com.h10.sideproject.common.exception.CustomException;
-import com.h10.sideproject.common.exception.ErrorCode;
-import com.h10.sideproject.member.dto.EmailCheckDto;
-import com.h10.sideproject.member.dto.LoginRequestDto;
-import com.h10.sideproject.member.dto.NicknameCheckDto;
-import com.h10.sideproject.member.dto.SignupRequestDto;
+
+import com.h10.sideproject.common.response.ErrorCode;
+import com.h10.sideproject.member.dto.*;
 import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.member.mapper.MemberMapper;
 import com.h10.sideproject.member.repository.MemberRepository;
@@ -15,11 +13,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.web.bind.annotation.RestController;
+
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
-import static com.h10.sideproject.common.exception.ErrorCode.INCORRECT_PASSWORD;
-import static com.h10.sideproject.common.exception.ErrorCode.MEMBER_NOT_FOUND;
+
+import static com.h10.sideproject.common.response.ErrorCode.INCORRECT_PASSWORD;
+import static com.h10.sideproject.common.response.ErrorCode.MEMBER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor

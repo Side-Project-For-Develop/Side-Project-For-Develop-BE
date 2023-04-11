@@ -6,17 +6,15 @@ import com.h10.sideproject.comment.entity.Comment;
 import com.h10.sideproject.comment.mapper.CommentMapper;
 import com.h10.sideproject.comment.repository.CommentRepository;
 import com.h10.sideproject.common.exception.CustomException;
+import com.h10.sideproject.common.response.ErrorCode;
 import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.poll.entity.Poll;
 import com.h10.sideproject.poll.repository.PollRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.h10.sideproject.common.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -31,13 +29,13 @@ public class CommentService {
                               CommentRequest commentRequest,
                               Long pollId) {
         if(commentRequest == null || commentRequest.getComment() == null) {
-            throw new CustomException(NOT_FOUND_COMMENT);
+            throw new CustomException(ErrorCode.NOT_FOUND_COMMENT);
         }
-        Poll poll = pollRepository.findById(pollId).orElseThrow(()-> new CustomException(POLL_NOT_FOUND));
+        Poll poll = pollRepository.findById(pollId).orElseThrow(()-> new CustomException(ErrorCode.POLL_NOT_FOUND));
         // mapper 는 객체를 만들어주는 의미
         Comment comment = commentMapper.toComment(commentRequest, member, poll);
         if(!comment.getMember().getId().equals(member.getId())) {
-            throw new CustomException(AUTHORIZATION_CANNOT_CREATE);
+            throw new CustomException(ErrorCode.AUTHORIZATION_CANNOT_CREATE);
         }
         commentRepository.save(comment);
     }
@@ -45,7 +43,7 @@ public class CommentService {
     //댓글 조회
     @Transactional(readOnly = true)
     public ArrayList<CommentListDto> checkComments(Long pollId) {
-        Poll poll = pollRepository.findById(pollId).orElseThrow(()-> new CustomException(POLL_NOT_FOUND));
+        Poll poll = pollRepository.findById(pollId).orElseThrow(()-> new CustomException(ErrorCode.POLL_NOT_FOUND));
         List<Comment> commentList = commentRepository.findAllByPoll(poll);
         ArrayList<CommentListDto> list = new ArrayList<>();
         for(int i = 0; i < commentList.size(); i++) {
@@ -60,15 +58,15 @@ public class CommentService {
                        Long commentId,
                        CommentRequest commentRequest) {
         if(commentRequest == null || commentRequest.getComment() == null) {
-            throw new CustomException(NOT_FOUND_COMMENT);
+            throw new CustomException(ErrorCode.NOT_FOUND_COMMENT);
         }
         //댓글 찾기
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                ()->new CustomException(COMMENT_NOT_FOUND));
+                ()->new CustomException(ErrorCode.COMMENT_NOT_FOUND));
         comment.update(commentRequest.getComment());
         //권한 부여
         if(!comment.getMember().getId().equals(member.getId())) {
-            throw new CustomException(AUTHORIZATION_CANNOT_UPDATE);
+            throw new CustomException(ErrorCode.AUTHORIZATION_CANNOT_UPDATE);
         }
         commentRepository.save(comment);
 
@@ -77,10 +75,10 @@ public class CommentService {
     @Transactional
     public void deleteComment(Member member, Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
-                ()->new CustomException(COMMENT_NOT_FOUND)
+                ()->new CustomException(ErrorCode.COMMENT_NOT_FOUND)
         );
         if(!comment.getMember().getId().equals(member.getId())) {
-                throw new CustomException(AUTHORIZATION_CANNOT_DELETE);
+                throw new CustomException(ErrorCode.AUTHORIZATION_CANNOT_DELETE);
         }
         commentRepository.deleteById(commentId);
     }

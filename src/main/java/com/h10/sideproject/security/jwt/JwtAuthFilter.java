@@ -1,8 +1,8 @@
 package com.h10.sideproject.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.h10.sideproject.common.exception.ErrorCode;
-import com.h10.sideproject.common.ResponseMessage;
+import com.h10.sideproject.common.response.ErrorCode;
+import com.h10.sideproject.common.response.ResponseMessage;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.h10.sideproject.common.exception.ErrorCode.MEMBER_NOT_FOUND;
-import static com.h10.sideproject.common.exception.ErrorCode.TOKEN_ERROR;
-
+import static com.h10.sideproject.common.response.ErrorCode.MEMBER_NOT_FOUND;
+import static com.h10.sideproject.common.response.ErrorCode.TOKEN_ERROR;
 
 @Slf4j
 @RequiredArgsConstructor
