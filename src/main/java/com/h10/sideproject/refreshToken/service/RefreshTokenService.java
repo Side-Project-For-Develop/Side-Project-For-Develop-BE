@@ -1,6 +1,7 @@
 package com.h10.sideproject.refreshToken.service;
 
 import com.h10.sideproject.common.exception.CustomException;
+import com.h10.sideproject.common.response.ErrorCode;
 import com.h10.sideproject.member.repository.MemberRepository;
 import com.h10.sideproject.refreshToken.dto.RefreshTokenRequest;
 import com.h10.sideproject.refreshToken.dto.RefreshTokenResponse;
@@ -14,8 +15,6 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
-
-import static com.h10.sideproject.common.exception.ErrorCode.NOT_FOUND_EMAIL;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +36,7 @@ public class RefreshTokenService {
     public RefreshTokenResponse createRefreshToken(RefreshTokenRequest request) {
         //memberId 찾기
         Long Id = memberRepository.findByEmail(request.getEmail())
-                .orElseThrow(()->new CustomException(NOT_FOUND_EMAIL))
+                .orElseThrow(()->new CustomException(ErrorCode.NOT_FOUND_EMAIL))
                 .getId();
         RefreshToken refreshToken = new RefreshToken(UUID.randomUUID().toString(), Id);
         refreshTokenRepository.save(refreshToken);

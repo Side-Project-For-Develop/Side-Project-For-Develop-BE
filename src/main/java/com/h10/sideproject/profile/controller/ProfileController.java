@@ -1,6 +1,7 @@
 package com.h10.sideproject.profile.controller;
 
-import com.h10.sideproject.common.ResponseMessage;
+import com.h10.sideproject.common.response.MessageCode;
+import com.h10.sideproject.common.response.ResponseMessage;
 import com.h10.sideproject.profile.dto.ProfileRequestDto;
 import com.h10.sideproject.profile.service.ProfileService;
 import com.h10.sideproject.security.MemberDetailsImpl;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import static com.h10.sideproject.common.MessageCode.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +22,7 @@ public class ProfileController {
     public ResponseMessage<?> updateProfile(@AuthenticationPrincipal MemberDetailsImpl memberDetails,
                                             @RequestBody ProfileRequestDto profileRequestDto) {
         profileService.editProfile(memberDetails, profileRequestDto);
-        return new ResponseMessage<>(PROFILE_UPDATE_SUCCESS, null);
+        return new ResponseMessage<>(MessageCode.PROFILE_UPDATE_SUCCESS, null);
     }
     //로그아웃 -> 토큰값 지우기
     @PostMapping("/profile/logout")
@@ -31,13 +30,13 @@ public class ProfileController {
                                      HttpServletRequest request,
                                      HttpServletResponse response) {
         profileService.invalidateToken(memberDetails, request, response);
-        return new ResponseMessage<>(MEMBER_LOGOUT_SUCCESS, null);
+        return new ResponseMessage<>(MessageCode.MEMBER_LOGOUT_SUCCESS, null);
     }
     //회원탈퇴 -> 테이블에서 회원 찾아서 지우기
     @DeleteMapping("/profile/{memberId}")
     public ResponseMessage<?> outCommunity(@AuthenticationPrincipal MemberDetailsImpl memberDetails,
                                            @PathVariable Long memberId) {
         profileService.withdrawal(memberDetails, memberId);
-        return new ResponseMessage<>(MEMBER_DELETE_SUCCESS, null);
+        return new ResponseMessage<>(MessageCode.MEMBER_DELETE_SUCCESS, null);
     }
 }

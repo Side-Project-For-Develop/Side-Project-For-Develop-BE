@@ -36,6 +36,5 @@ public class Member {
         this.nickname = nickname;
         this.password = password;
         this.profileImage = profileImage;
-
     }
 }
