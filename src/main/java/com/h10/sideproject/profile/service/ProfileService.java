@@ -43,7 +43,7 @@ public class ProfileService {
     }
 
     @Transactional
-    public void withdrawal(MemberDetailsImpl memberDetails, Long memberId) {
+    public void withdrawal(Long memberId) {
         try{
             Member member = memberRepository.findById(memberId).orElseThrow(()->new CustomException(ErrorCode.NOT_FOUND_MEMBER));
             memberRepository.delete(member);

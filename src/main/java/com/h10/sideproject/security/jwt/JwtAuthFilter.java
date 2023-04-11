@@ -21,7 +21,6 @@ import java.io.IOException;
 import static com.h10.sideproject.common.response.ErrorCode.MEMBER_NOT_FOUND;
 import static com.h10.sideproject.common.response.ErrorCode.TOKEN_ERROR;
 
-
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
