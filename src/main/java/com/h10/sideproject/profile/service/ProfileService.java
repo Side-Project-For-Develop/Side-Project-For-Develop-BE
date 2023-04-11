@@ -26,7 +26,7 @@ public class ProfileService {
         //bearerToken 에서 email 추출
         Member member =memberRepository.findByEmail(memberDetails.getMember().getEmail()).orElseThrow(
                 ()-> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
-//        member.update(profileRequestDto.getProfileImage(), profileRequestDto.getNickname());
+        member.update(profileRequestDto.getProfileImage(), profileRequestDto.getNickname());
         if(!member.getEmail().equals(memberDetails.getMember().getEmail())) {
             throw new CustomException(ErrorCode.NOT_FOUND_EMAIL);
         }
@@ -38,7 +38,7 @@ public class ProfileService {
         String token = jwtUtil.resolveToken(request.getHeader(JwtUtil.AUTHORIZATION_HEADER));
         if(StringUtils.hasText(token) && jwtUtil.validateToken(token)) {
             jwtUtil.invalidateToken(token);
-//            CookieUtil.deleteCookie(response, JwtUtil.AUTHORIZATION_KEY);
+            CookieUtil.deleteCookie(response, JwtUtil.AUTHORIZATION_KEY);
         }
     }
 
