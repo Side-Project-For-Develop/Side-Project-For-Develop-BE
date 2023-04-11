@@ -2,6 +2,8 @@ package com.h10.sideproject.profile.service;
 
 import com.h10.sideproject.common.CookieUtil;
 import com.h10.sideproject.common.exception.CustomException;
+
+import com.h10.sideproject.common.response.ErrorCode;
 import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.member.repository.MemberRepository;
 import com.h10.sideproject.profile.dto.ProfileRequestDto;
@@ -15,8 +17,6 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.h10.sideproject.common.exception.ErrorCode.*;
-
 @Service
 @RequiredArgsConstructor
 public class ProfileService {
@@ -28,10 +28,10 @@ public class ProfileService {
                             ProfileRequestDto profileRequestDto) {
         //bearerToken 에서 email 추출
         Member member =memberRepository.findByEmail(memberDetails.getMember().getEmail()).orElseThrow(
-                ()-> new CustomException(NOT_FOUND_MEMBER));
+                ()-> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
         member.update(profileRequestDto.getProfileImage(), profileRequestDto.getNickname());
         if(!member.getEmail().equals(memberDetails.getMember().getEmail())) {
-            throw new CustomException(NOT_FOUND_EMAIL);
+            throw new CustomException(ErrorCode.NOT_FOUND_EMAIL);
         }
         memberRepository.save(member);
     }
@@ -50,10 +50,10 @@ public class ProfileService {
     @Transactional
     public void withdrawal(Long memberId) {
         try{
-            Member member = memberRepository.findById(memberId).orElseThrow(()->new CustomException(NOT_FOUND_MEMBER));
+            Member member = memberRepository.findById(memberId).orElseThrow(()->new CustomException(ErrorCode.NOT_FOUND_MEMBER));
             memberRepository.delete(member);
         }catch (Exception e) {
-            throw new CustomException(MEMBER_FOUND_NULL);
+            throw new CustomException(ErrorCode.MEMBER_FOUND_NULL);
         }
 
     }

@@ -1,12 +1,13 @@
 package com.h10.sideproject.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.h10.sideproject.common.ResponseMessage;
+import com.h10.sideproject.common.response.ResponseMessage;
 import com.h10.sideproject.security.jwt.JwtAuthFilter;
 import com.h10.sideproject.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,7 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static com.h10.sideproject.common.exception.ErrorCode.FORBIDDEN_ERROR;
+import static com.h10.sideproject.common.response.ErrorCode.FORBIDDEN_ERROR;
 
 @Configuration
 @RequiredArgsConstructor
@@ -43,6 +44,12 @@ public class WebSecurityConfig {
         http.authorizeRequests()
                 .antMatchers("/api/member/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/api/toks/**").permitAll()
+                .antMatchers("/api/upload/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/poll/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/search/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/topic/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/keyword/**").permitAll()
                 .anyRequest().authenticated()
                 // JWT 인증/인가를 사용하기 위해 JwtAuthFilter 적용
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
@@ -78,8 +85,6 @@ public class WebSecurityConfig {
         // Access-Control-Allow-Origin
         //config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedOrigin("http://localhost:3000"); //요거 변경하시면 됩니다.
-        //
-        config.addAllowedOrigin("http://localhost:8080");
 
 
         // 특정 헤더를 클라이언트 측에서 꺼내어 사용할 수 있게 지정

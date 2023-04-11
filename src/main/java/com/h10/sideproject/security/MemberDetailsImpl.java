@@ -1,6 +1,7 @@
 package com.h10.sideproject.security;
 
 import com.h10.sideproject.member.entity.Member;
+import com.h10.sideproject.member.mapper.MemberMapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

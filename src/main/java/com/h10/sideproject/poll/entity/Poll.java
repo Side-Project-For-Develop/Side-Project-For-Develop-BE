@@ -1,17 +1,14 @@
 package com.h10.sideproject.poll.entity;
 
+import com.h10.sideproject.Result.entity.Result;
 import com.h10.sideproject.category.entity.Category;
-import com.h10.sideproject.comment.entity.Comment;
 import com.h10.sideproject.common.Timestamped;
 import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.poll.dto.PollRequestDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -28,18 +25,18 @@ public class Poll extends Timestamped {
     private String title; //설문 제목
 
     @Column(nullable = false)
+    @NotNull(message = "첫번째 선택지는 null이 될수없음")
     private String choice1; //첫번째 선택지
 
-    @Column(nullable = false)
+    @Column()
     private String choice1_img; //첫번째 선택지 이미지
-
     @Column(nullable = false)
     private String choice2; //두번째 선택지
 
-    @Column(nullable = false)
+    @Column()
     private String choice2_img; //두번째 선택지 이미지
 
-    @Column(nullable = false)
+    @Column()
     private Long view;  //조회수
 
     @JoinColumn(name = "category_id", nullable = false)
@@ -48,11 +45,10 @@ public class Poll extends Timestamped {
 
     @JoinColumn(name = "member_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member member; //카테고리
+    private Member member; //멤버
 
-    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY)
-    private List<Comment> comments = new ArrayList<>();
-
+    @OneToMany(mappedBy="poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Result> PollResultList;
 
     public void update(PollRequestDto pollRequestDto,Category category){
         this.title = pollRequestDto.getTitle();
@@ -66,4 +62,5 @@ public class Poll extends Timestamped {
     public void plusView(){
         this.view++;
     }
+
 }
