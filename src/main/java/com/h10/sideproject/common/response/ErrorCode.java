@@ -1,4 +1,4 @@
-package com.h10.sideproject.common.exception;
+package com.h10.sideproject.common.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
