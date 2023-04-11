@@ -173,3 +173,5 @@ gradle-app.setting
 /src/main/resources/application-aws.properties
 /src/main/resources/application-jwt.properties
 /build/resources/main/application-jwt.properties
+/build/resources/main/application-redis.properties
+/src/main/resources/application-redis.properties
