@@ -2,6 +2,7 @@ package com.h10.sideproject.profile.service;
 
 import com.h10.sideproject.common.CookieUtil;
 import com.h10.sideproject.common.exception.CustomException;
+
 import com.h10.sideproject.common.response.ErrorCode;
 import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.member.repository.MemberRepository;
@@ -23,7 +24,8 @@ public class ProfileService {
     private final JwtUtil jwtUtil;
 
     @Transactional
-    public void editProfile(MemberDetailsImpl memberDetails, ProfileRequestDto profileRequestDto) {
+    public void editProfile(MemberDetailsImpl memberDetails,
+                            ProfileRequestDto profileRequestDto) {
         //bearerToken 에서 email 추출
         Member member =memberRepository.findByEmail(memberDetails.getMember().getEmail()).orElseThrow(
                 ()-> new CustomException(ErrorCode.NOT_FOUND_MEMBER));
@@ -35,7 +37,9 @@ public class ProfileService {
     }
 
     @Transactional
-    public void invalidateToken(MemberDetailsImpl memberDetails, HttpServletRequest request, HttpServletResponse response) {
+    public void invalidateToken(MemberDetailsImpl memberDetails,
+                                HttpServletRequest request,
+                                HttpServletResponse response) {
         String token = jwtUtil.resolveToken(request.getHeader(JwtUtil.AUTHORIZATION_HEADER));
         if(StringUtils.hasText(token) && jwtUtil.validateToken(token)) {
             jwtUtil.invalidateToken(token);
