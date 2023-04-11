@@ -13,11 +13,8 @@ public class RedisConfig {
     private final String redisHost;
     private final int redisPort;
 
-    public RedisConfig(@Value("localhost") final String redisHost,
-                       @Value("6379") final int redisPort) {
-
-//    public RedisConfig(@Value("${spring.redis.host}") final String redisHost,
-//                       @Value("${spring.redis.port}") final int redisPort) {
+    public RedisConfig(@Value("${spring.redis.host}") final String redisHost,
+                       @Value("${spring.redis.port}") final int redisPort) {
         this.redisHost = redisHost;
         this.redisPort = redisPort;
     }

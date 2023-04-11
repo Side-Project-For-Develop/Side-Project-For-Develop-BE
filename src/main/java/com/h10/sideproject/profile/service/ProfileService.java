@@ -1,5 +1,6 @@
 package com.h10.sideproject.profile.service;
 
+import com.h10.sideproject.common.CookieUtil;
 import com.h10.sideproject.common.exception.CustomException;
 import com.h10.sideproject.common.response.ErrorCode;
 import com.h10.sideproject.member.entity.Member;

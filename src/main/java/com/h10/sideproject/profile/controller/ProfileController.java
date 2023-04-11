@@ -36,7 +36,7 @@ public class ProfileController {
     @DeleteMapping("/profile/{memberId}")
     public ResponseMessage<?> outCommunity(@AuthenticationPrincipal MemberDetailsImpl memberDetails,
                                            @PathVariable Long memberId) {
-        profileService.withdrawal(memberDetails, memberId);
+        profileService.withdrawal(memberId);
         return new ResponseMessage<>(MessageCode.MEMBER_DELETE_SUCCESS, null);
     }
 }
