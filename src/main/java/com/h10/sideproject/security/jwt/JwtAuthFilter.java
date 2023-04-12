@@ -25,7 +25,6 @@ import static com.h10.sideproject.common.response.ErrorCode.TOKEN_ERROR;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-
     private final JwtUtil jwtUtil;
 
     @Override

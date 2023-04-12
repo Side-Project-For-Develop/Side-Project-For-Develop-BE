@@ -59,12 +59,6 @@ public class PollService {
         Double d1 = Double.parseDouble(percent1);
         Double d2 = Double.parseDouble(percent2);
 
-        System.out.println("cal1 = " + percent1);
-        System.out.println("d1 = " + d1);
-        System.out.println();
-        System.out.println("cal2 = " + percent2);
-        System.out.println("d2 = " + d2);
-
         PollResponseDto pollResponseDto = pollMapper.toPollResponseDto(poll,check,percent1,percent2);
         return new ResponseMessage<>(MessageCode.POLL_READ_SUCCESS,pollResponseDto);
     }
