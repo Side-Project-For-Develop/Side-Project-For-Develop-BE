@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.h10.sideproject.common.exception.CustomException;
+import com.h10.sideproject.common.response.ErrorCode;
 import com.h10.sideproject.member.dto.KakaoInfoDto;
 import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.member.repository.MemberRepository;
@@ -22,8 +23,6 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
-
-import static com.h10.sideproject.common.exception.ErrorCode.NOT_FOUND_KAKAOID;
 
 
 @Slf4j
@@ -119,7 +118,7 @@ public class KakaoService {
         //카카오 사용자 정보에서 id
         Long kakaoId = kakaoInfoDto.getKakaoId();
         //kakaoMember 찾기
-        Member kakaoMember = memberRepository.findById(kakaoId).orElseThrow(()->new CustomException(NOT_FOUND_KAKAOID));
+        Member kakaoMember = memberRepository.findById(kakaoId).orElseThrow(()->new CustomException(ErrorCode.NOT_FOUND_KAKAOID));
         //카카오 api 에서 받은 email(카카오 email)
         String kakaoEmail = kakaoInfoDto.getEmail();
         //memberRepository 에 저장된 유저 email

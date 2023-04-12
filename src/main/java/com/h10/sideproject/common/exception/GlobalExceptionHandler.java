@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestControllerAdvice
@@ -23,6 +24,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({SQLIntegrityConstraintViolationException.class})
     protected ResponseEntity SQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException ex) {
+        return new ResponseEntity(new ResponseMessage<>(ErrorCode.POLL_REQUIRED_NOT_ENOUGH.getMsg(), HttpStatus.BAD_REQUEST.value(), null)
+                , HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ConstraintViolationException.class})
+    protected ResponseEntity ConstraintViolationException(ConstraintViolationException ex) {
         return new ResponseEntity(new ResponseMessage<>(ErrorCode.POLL_REQUIRED_NOT_ENOUGH.getMsg(), HttpStatus.BAD_REQUEST.value(), null)
                 , HttpStatus.BAD_REQUEST);
     }
