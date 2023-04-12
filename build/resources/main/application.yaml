@@ -8,5 +8,11 @@
         bucket : update
 
   JWT_SECRET_KEY: update
+  spring:
+    cache:
+      type : redis
+    redis:
+      host: update
+      port: 0000
 
 
