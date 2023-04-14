@@ -56,6 +56,7 @@ public class PollService {
         String percent1 = String.format("%.2f",count1/total*100);
         String percent2 = String.format("%.2f",count2/total*100);
 
+        //현재는 소수점 2자리까지 문자열 만들어 응답을 보내주지만 숫자로 보내줘야 할때를 대비해서 숫자도 만들어 놓음
         Double d1 = Double.parseDouble(percent1);
         Double d2 = Double.parseDouble(percent2);
 
