@@ -169,11 +169,7 @@ gradle-app.setting
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij,gradle,java
 
-/build/resources/main/application-aws.properties
 /src/main/resources/application-aws.properties
 /src/main/resources/application-jwt.properties
-/build/resources/main/application-jwt.properties
-/build/resources/main/application-redis.properties
 /src/main/resources/application-redis.properties
-/build/resources/main/application-db.properties
 /src/main/resources/application-db.properties
