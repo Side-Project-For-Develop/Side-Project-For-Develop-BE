@@ -175,3 +175,5 @@ gradle-app.setting
 /build/resources/main/application-jwt.properties
 /build/resources/main/application-redis.properties
 /src/main/resources/application-redis.properties
+/build/resources/main/application-db.properties
+/src/main/resources/application-db.properties
