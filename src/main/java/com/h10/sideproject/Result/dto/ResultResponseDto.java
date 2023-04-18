@@ -1,15 +1,16 @@
-package com.h10.sideproject.poll.dto;
+package com.h10.sideproject.Result.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PollResponseDto {
+@Builder
+public class ResultResponseDto {
+
     private Long id;    //설문 아이디
     private String nickname; // 설문 작성자
     private String title; //설문 제목
@@ -22,6 +23,6 @@ public class PollResponseDto {
     private boolean vote; // 투표했는지 여부
     private String myChoice;
     private String choice1_result; //1번 선택지 결과
-
     private String choice2_result; //2번 선택지 결과
+    private String choice;  //선택결과
 }

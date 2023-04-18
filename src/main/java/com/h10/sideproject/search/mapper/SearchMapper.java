@@ -42,7 +42,6 @@ public class SearchMapper {
                 .nickname(poll.getMember().getNickname())
                 .count(count)
                 .category(poll.getCategory().getName())
-                .category_id(poll.getCategory().getCategory_id())
                 .build();
     }
 

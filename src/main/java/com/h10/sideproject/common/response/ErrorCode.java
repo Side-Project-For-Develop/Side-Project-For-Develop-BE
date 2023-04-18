@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
     //400 BAD_REQUEST 잘못된 요청
-    DUPLICATE_MEMBERID("중복된 아이디가 존재합니다.", 400),
     DUPLICATE_EMAIL("중복된 이메일이 존재합니다.", 400),
     DUPLICATE_NICKNAME("중복된 닉네임이 존재합니다.", 400),
     MEMBER_FOUND_NULL("유저가 없습니다.", 400),
