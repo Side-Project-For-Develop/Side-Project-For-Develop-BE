@@ -13,6 +13,8 @@ public enum MessageCode {
     //로그인, 회원가입, 소셜로그인, 토큰
     MEMBER_LOGIN_SUCCESS("로그인 성공", 200),
     MEMBER_SIGNUP_SUCCESS("회원가입 성공", 200),
+    EMAIL_SUCCESS("중복된 이메일이 없습니다.", 200),
+    NICKNAME_SUCCESS("중복된 닉네임이 없습니다.", 200),
 
     //이미지
     IMAGE_UPLOAD_SUCCESS("이미지 업로드 성공", 200),

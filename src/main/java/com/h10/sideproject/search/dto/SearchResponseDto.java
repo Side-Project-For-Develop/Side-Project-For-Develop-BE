@@ -15,9 +15,8 @@ public class SearchResponseDto {
     private String choice2; //두번째 선택지
     private Long view;  //조회수
     private Double count; // 투표한 사람 수
-    private Long category_id;
     @Builder
-    public SearchResponseDto(Long poll_id, String nickname, String title, String category, String choice1, String choice2, Long view, Double count, Long category_id){
+    public SearchResponseDto(Long poll_id, String nickname, String title, String category, String choice1, String choice2, Long view, Double count){
         this.category = category;
         this.count = count;
         this.choice1 = choice1;
@@ -26,7 +25,6 @@ public class SearchResponseDto {
         this.poll_id = poll_id;
         this.nickname = nickname;
         this.title = title;
-        this.category_id = category_id;
     }
 
 

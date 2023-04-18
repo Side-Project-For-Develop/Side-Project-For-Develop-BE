@@ -1,9 +1,12 @@
 package com.h10.sideproject.poll.service;
 
+import com.h10.sideproject.Result.dto.ResultResponseDto;
+import com.h10.sideproject.Result.entity.Result;
 import com.h10.sideproject.Result.repository.ResultRepository;
 import com.h10.sideproject.category.entity.Category;
 import com.h10.sideproject.category.mapper.CatrgoryMapper;
 import com.h10.sideproject.category.repository.CategoryRepository;
+import com.h10.sideproject.comment.repository.CommentRepository;
 import com.h10.sideproject.common.exception.CustomException;
 import com.h10.sideproject.common.response.ErrorCode;
 import com.h10.sideproject.common.response.MessageCode;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +33,7 @@ public class PollService {
     private final ResultRepository resultRepository;
     private final PollMapper pollMapper;
     private final CatrgoryMapper catrgoryMapper;
+    private final CommentRepository commentRepository;
     @Transactional
     public ResponseMessage<?> createPoll(PollRequestDto pollRequestDto, Member member) {
         Category category = categoryRepository.findByName(pollRequestDto.getCategory()).orElse(null);
@@ -60,8 +65,16 @@ public class PollService {
         Double d1 = Double.parseDouble(percent1);
         Double d2 = Double.parseDouble(percent2);
 
-        PollResponseDto pollResponseDto = pollMapper.toPollResponseDto(poll,check,percent1,percent2);
-        return new ResponseMessage<>(MessageCode.POLL_READ_SUCCESS,pollResponseDto);
+        Optional<Result> result = resultRepository.findByPollAndMember(poll, memberDetails.getMember());
+
+        if(result.isEmpty()){
+            PollResponseDto pollResponseDto = pollMapper.toPollResponseDto(poll,check,percent1,percent2);
+            return new ResponseMessage<>(MessageCode.POLL_READ_SUCCESS,pollResponseDto);
+        }else {
+            String myChoice = result.get().getChoice();
+            ResultResponseDto resultResponseDto = pollMapper.toResultResponseDto(poll,check,percent1,percent2, myChoice);
+            return new ResponseMessage<>(MessageCode.POLL_READ_SUCCESS,resultResponseDto);
+        }
     }
 
     @Transactional
@@ -85,6 +98,7 @@ public class PollService {
     public ResponseMessage<?> deletePoll(Long poll_id, Member member) {
         Poll poll = pollRepository.findById(poll_id).orElseThrow(() -> new CustomException(ErrorCode.POLL_NOT_FOUND));
         if(poll.getMember().getId() == member.getId()){
+            commentRepository.deleteAllByCommentId(poll_id);
             pollRepository.deleteById(poll_id);
             return new ResponseMessage<>(MessageCode.POLL_DELETE_SUCCESS,null);
         }else{
@@ -114,9 +128,16 @@ public class PollService {
             String cal1 = String.format("%.2f",count1/total*100);
             String cal2 = String.format("%.2f",count2/total*100);
 
-            PollResponseDto pollResponseDto = pollMapper.toPollResponseDto(poll,check,cal1,cal2);
+            Optional<Result> result = resultRepository.findByPollAndMember(poll, memberDetails.getMember());
 
-            return new ResponseMessage<>(MessageCode.TOKS_READ_SUCCESS,pollResponseDto);
+            if(result.isEmpty()){
+                PollResponseDto pollResponseDto = pollMapper.toPollResponseDto(poll,check,cal1,cal2);
+                return new ResponseMessage<>(MessageCode.TOKS_READ_SUCCESS,pollResponseDto);
+            }else {
+                String myChoice = result.get().getChoice();
+                ResultResponseDto resultResponseDto = pollMapper.toResultResponseDto(poll,check,cal1,cal2,myChoice);
+                return new ResponseMessage<>(MessageCode.POLL_READ_SUCCESS,resultResponseDto);
+            }
         }else {
             return new ResponseMessage<>(ErrorCode.TOKS_NOT_FOUND);
         }

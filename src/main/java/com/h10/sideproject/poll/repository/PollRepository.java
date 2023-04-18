@@ -6,6 +6,7 @@ import com.h10.sideproject.poll.entity.Poll;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -35,4 +36,9 @@ public interface PollRepository extends JpaRepository<Poll,Long> {
     List<Poll> selectCategoryNameSQL(String name);
 
     List<Poll> findByCategoryAndCreatedAtBetweenOrderByViewDesc(Category category, LocalDateTime start, LocalDateTime end);
+
+    @Modifying
+    @Query("delete from Poll p where p.member.id = :id")
+    void deleteAllByMemberId(@Param("id") Long member_id);
+
 }
