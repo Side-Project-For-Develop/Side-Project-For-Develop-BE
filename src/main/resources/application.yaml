@@ -18,6 +18,9 @@
      url : update
      username : update
      password : update
+    jpa:
+      hibernate:
+        ddl-auto: update
 
 
 
