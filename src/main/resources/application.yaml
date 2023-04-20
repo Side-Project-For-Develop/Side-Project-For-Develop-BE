@@ -14,5 +14,10 @@
     redis:
       host: update
       port: 0000
+    datasource:
+     url : update
+     username : update
+     password : update
+
 
 
