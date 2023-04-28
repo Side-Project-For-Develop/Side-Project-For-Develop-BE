@@ -30,7 +30,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-    public void signup(SignupRequestDto signupRequestDto) {
+    public synchronized void signup(SignupRequestDto signupRequestDto) {
         Member member = memberMapper.toMember(signupRequestDto);
 
         Optional<Member> checkEmail = memberRepository.findByEmail(member.getEmail());
