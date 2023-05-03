@@ -25,4 +25,6 @@ public class Category extends Timestamped {
 
     @OneToMany(mappedBy="category", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Poll> pollList;
+
+
 }
