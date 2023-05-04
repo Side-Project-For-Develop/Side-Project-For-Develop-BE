@@ -1,9 +1,13 @@
 package com.h10.sideproject.member.service;
 
 import com.h10.sideproject.common.exception.CustomException;
-
 import com.h10.sideproject.common.response.ErrorCode;
-import com.h10.sideproject.member.dto.*;
+import com.h10.sideproject.common.response.MessageCode;
+import com.h10.sideproject.common.response.ResponseMessage;
+import com.h10.sideproject.member.dto.EmailCheckDto;
+import com.h10.sideproject.member.dto.LoginRequestDto;
+import com.h10.sideproject.member.dto.NicknameCheckDto;
+import com.h10.sideproject.member.dto.SignupRequestDto;
 import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.member.mapper.MemberMapper;
 import com.h10.sideproject.member.repository.MemberRepository;
@@ -13,11 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
-
 
 import static com.h10.sideproject.common.response.ErrorCode.INCORRECT_PASSWORD;
 import static com.h10.sideproject.common.response.ErrorCode.MEMBER_NOT_FOUND;
@@ -57,17 +58,21 @@ public class MemberService {
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(member.getEmail()));
     }
 
-    public void emailcheck(EmailCheckDto emailcheckDto) {
+    public ResponseMessage<?> emailcheck(EmailCheckDto emailcheckDto) {
         Optional<Member> checkEmail = memberRepository.findByEmail(emailcheckDto.getEmail());
         if(checkEmail.isPresent()){
             throw new CustomException(ErrorCode.DUPLICATE_EMAIL);
+        }else{
+            return new ResponseMessage<>(MessageCode.EMAIL_SUCCESS, null);
         }
     }
 
-    public void nicknamecheck(NicknameCheckDto nicknamecheckDto) {
+    public ResponseMessage<?> nicknamecheck(NicknameCheckDto nicknamecheckDto) {
         Optional<Member> checkNickname = memberRepository.findByNickname(nicknamecheckDto.getNickname());
         if(checkNickname.isPresent()){
             throw new CustomException(ErrorCode.DUPLICATE_NICKNAME);
+        }else{
+           return new ResponseMessage<>(MessageCode.NICKNAME_SUCCESS, null);
         }
     }
 }
