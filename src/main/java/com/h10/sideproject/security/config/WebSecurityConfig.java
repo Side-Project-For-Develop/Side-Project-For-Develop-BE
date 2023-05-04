@@ -85,6 +85,7 @@ public class WebSecurityConfig {
         // Access-Control-Allow-Origin
         //config.addAllowedOrigin("http://localhost:3000");
         config.addAllowedOrigin("http://localhost:3000"); //요거 변경하시면 됩니다.
+        config.addAllowedOrigin("https://test-kevin-view.vercel.app/");
 
 
         // 특정 헤더를 클라이언트 측에서 꺼내어 사용할 수 있게 지정
