@@ -35,14 +35,12 @@ public class MemberController {
     }
     @PostMapping("/member/checkemail")
     public ResponseMessage<?> emailcheck(@RequestBody EmailCheckDto emailcheckDto){
-        memberService.emailcheck(emailcheckDto);
-        return new ResponseMessage<>(MessageCode.EMAIL_SUCCESS, null);
+        return memberService.emailcheck(emailcheckDto);
     }
 
     @PostMapping("/member/checknickname")
     public ResponseMessage<?> nicknamecheck(@RequestBody NicknameCheckDto nicknamecheckDto){
-        memberService.nicknamecheck(nicknamecheckDto);
-        return new ResponseMessage<>(MessageCode.NICKNAME_SUCCESS, null);
+        return memberService.nicknamecheck(nicknamecheckDto);
     }
 
     //카카오 로그인
