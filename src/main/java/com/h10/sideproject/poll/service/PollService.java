@@ -132,7 +132,7 @@ public class PollService {
             if(memberDetails != null){
                 result = resultRepository.findByPollAndMember(poll, memberDetails.getMember());
             }
-            if(result.isEmpty()){
+            if(result == null){
                 PollResponseDto pollResponseDto = pollMapper.toPollResponseDto(poll,check,cal1,cal2);
                 return new ResponseMessage<>(MessageCode.TOKS_READ_SUCCESS,pollResponseDto);
             }else {
