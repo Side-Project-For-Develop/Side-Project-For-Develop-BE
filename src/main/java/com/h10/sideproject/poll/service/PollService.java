@@ -128,9 +128,11 @@ public class PollService {
             String cal1 = String.format("%.2f",count1/total*100);
             String cal2 = String.format("%.2f",count2/total*100);
 
-            Optional<Result> result = resultRepository.findByPollAndMember(poll, memberDetails.getMember());
-
-            if(result.isEmpty()){
+            Optional<Result> result = null;
+            if(memberDetails != null){
+                result = resultRepository.findByPollAndMember(poll, memberDetails.getMember());
+            }
+            if(result == null){
                 PollResponseDto pollResponseDto = pollMapper.toPollResponseDto(poll,check,cal1,cal2);
                 return new ResponseMessage<>(MessageCode.TOKS_READ_SUCCESS,pollResponseDto);
             }else {
