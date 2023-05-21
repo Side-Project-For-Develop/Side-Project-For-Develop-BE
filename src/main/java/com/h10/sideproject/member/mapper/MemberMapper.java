@@ -1,5 +1,6 @@
 package com.h10.sideproject.member.mapper;
 
+import com.h10.sideproject.member.dto.LoginResponseDto;
 import com.h10.sideproject.member.dto.SignupRequestDto;
 import com.h10.sideproject.member.entity.Member;
 import lombok.RequiredArgsConstructor;
@@ -18,4 +19,11 @@ public class MemberMapper {
                 .profileImage(signupRequestDto.getProfileImage())
                 .build();
     }
+
+    public LoginResponseDto tologinResponseDto(Long id){
+        return LoginResponseDto.builder()
+                .memberId(id)
+                .build();
+    }
+
 }

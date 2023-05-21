@@ -10,10 +10,9 @@ import javax.persistence.LockModeType;
 import java.util.Optional;
 
 public interface ResultRepository extends JpaRepository<Result,Long> {
+    Double countAllByPollAndChoice(Poll poll, String choice);
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     Boolean existsByPollAndMember(Poll poll, Member member);
-    Double countAllByPollAndChoice(Poll poll, String choice);
-
     Double countAllByPoll(Poll poll);
 
     Optional<Result> findByPollAndMember(Poll poll, Member member);

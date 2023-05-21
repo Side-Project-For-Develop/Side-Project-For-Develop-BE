@@ -4,10 +4,7 @@ import com.h10.sideproject.common.exception.CustomException;
 import com.h10.sideproject.common.response.ErrorCode;
 import com.h10.sideproject.common.response.MessageCode;
 import com.h10.sideproject.common.response.ResponseMessage;
-import com.h10.sideproject.member.dto.EmailCheckDto;
-import com.h10.sideproject.member.dto.LoginRequestDto;
-import com.h10.sideproject.member.dto.NicknameCheckDto;
-import com.h10.sideproject.member.dto.SignupRequestDto;
+import com.h10.sideproject.member.dto.*;
 import com.h10.sideproject.member.entity.Member;
 import com.h10.sideproject.member.mapper.MemberMapper;
 import com.h10.sideproject.member.repository.MemberRepository;
@@ -46,7 +43,7 @@ public class MemberService {
         memberRepository.save(member);
     }
     @Transactional
-    public void login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         Member member = memberRepository.findByEmail(loginRequestDto.getEmail()).orElseThrow(
                 () -> new CustomException(MEMBER_NOT_FOUND)
         );
@@ -56,6 +53,8 @@ public class MemberService {
         }
 
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(member.getEmail()));
+
+        return memberMapper.tologinResponseDto(member.getId());
     }
 
     public ResponseMessage<?> emailcheck(EmailCheckDto emailcheckDto) {
