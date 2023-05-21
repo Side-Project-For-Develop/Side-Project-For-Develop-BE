@@ -30,8 +30,8 @@ public class MemberController {
 
     @PostMapping("/member/login")
     public ResponseMessage<?> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
-        memberService.login(loginRequestDto, response);
-        return new ResponseMessage<>(MessageCode.MEMBER_LOGIN_SUCCESS, null);
+        LoginResponseDto loginResponseDto = memberService.login(loginRequestDto, response);
+        return new ResponseMessage<>(MessageCode.MEMBER_LOGIN_SUCCESS, loginResponseDto);
     }
     @PostMapping("/member/checkemail")
     public ResponseMessage<?> emailcheck(@RequestBody EmailCheckDto emailcheckDto){

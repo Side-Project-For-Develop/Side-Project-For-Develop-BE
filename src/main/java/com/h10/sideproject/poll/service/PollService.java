@@ -106,7 +106,8 @@ public class PollService {
         }
     }
 
-    public ResponseMessage<?> toks(MemberDetailsImpl memberDetails) {
+    @Transactional
+    public synchronized ResponseMessage<?> toks(MemberDetailsImpl memberDetails) {
         List<Poll> randomList;
         if(memberDetails == null){
             randomList = pollRepository.findAll();
